@@ -1,0 +1,14 @@
+# Framework Web & CORS
+Flask>=3.0.0
+flask-cors>=4.0.0
+
+# Banco de Dados & Supabase
+supabase>=2.0.0
+python-dotenv>=1.0.0
+
+# Segurança & Criptografia de Senhas
+Werkzeug>=3.0.0
+bcrypt>=4.1.0
+
+# Servidor de Produção (para deploy)
+gunicorn>=21.2.0
