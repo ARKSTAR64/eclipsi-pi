@@ -798,3 +798,102 @@ body {
   cursor: pointer;
   font-weight: bold;
 }
+
+/* --- Estilos da Tela de Perfil --- */
+.profile-header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.settings-nav-btn {
+  background-color: #ffffff;
+  color: #7500a8;
+  border: 1px solid #7500a8;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.settings-nav-btn:hover {
+  background-color: #7500a8;
+  color: #ffffff;
+}
+
+.profile-card-edit {
+  align-items: center;
+}
+
+.profile-avatar-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.profile-avatar-lg {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #7500a8;
+}
+
+.avatar-upload-btn {
+  background-color: #f5dfff;
+  color: #7500a8;
+  padding: 6px 14px;
+  border-radius: 16px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.avatar-upload-btn:hover {
+  background-color: #e5b3ff;
+}
+
+.profile-card-edit .form-group {
+  width: 100%;
+}
+
+.profile-card-edit textarea {
+  padding: 10px 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+  font-family: inherit;
+  resize: vertical;
+}
+
+.profile-card-edit textarea:focus {
+  border-color: #7500a8;
+}
+
+.settings-header-container {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.btn-back {
+  background: none;
+  border: none;
+  color: #7500a8;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
