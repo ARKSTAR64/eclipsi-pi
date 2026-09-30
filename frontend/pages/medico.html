@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel do Profissional - Saúde Mental</title>
+
+  <!-- Biblioteca Font Awesome para Ícones -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <link rel="stylesheet" href="../css/medico.css">
+</head>
+<body>
+
+  <!-- Header (Visível em telas maiores) -->
+  <header class="header">
+    <div class="header-left">
+      <button class="burger-btn" id="burgerBtn" aria-label="Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <a href="#" class="logo">MinhaLogo | Profissional</a>
+    </div>
+
+    <div class="header-right">
+      <input type="text" class="search-input" placeholder="Pesquisar pacientes...">
+      <img src="https://via.placeholder.com/40" alt="Foto de perfil" class="profile-img">
+    </div>
+  </header>
+
+  <!-- Overlay para fechar a Sidebar -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- Sidebar (Menu Hambúrguer) -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <h2>Menu Profissional</h2>
+      <button class="close-btn" id="closeBtn">&times;</button>
+    </div>
+    <nav class="sidebar-nav">
+        <button class="nav-item active" data-target="home">Minha Agenda</button>
+        <button class="nav-item" data-target="pacientes">Meus Pacientes</button>
+        <button class="nav-item" data-target="perfil">Perfil Profissional</button>
+        <button class="nav-item logout" data-target="sair">Sair</button>
+    </nav>
+  </aside>
+
+  <!-- Conteúdo Principal -->
+  <main class="content-container">
+    <!-- Seção Home: Agendamentos do Profissional -->
+    <section id="home" class="page-content active">
+        <h1>Próximas Consultas</h1>
+        <p>Acompanhamento dos atendimentos agendados:</p>
+
+        <div class="cards-grid">
+            <!-- Consulta 1 -->
+            <article class="appointment-card" 
+                     data-patient="João da Silva" 
+                     data-type="Sessão TCC / Primeira Consulta" 
+                     data-date="30/09/2026 às 14:00" 
+                     data-price="R$ 200,00" 
+                     data-img="https://via.placeholder.com/150" 
+                     data-history="Paciente relata episódios recorrentes de ansiedade no trabalho e sintomas de burnout. Histórico sem medicações prévias.">
+              <img src="https://via.placeholder.com/150" alt="Foto do Paciente" class="card-img">
+              <div class="card-info">
+                  <h3>João da Silva</h3>
+                  <span class="specialty">Sessão TCC / Primeira Consulta</span>
+                  <p class="card-date">🗓 30/09/2026 - 14:00</p>
+                  <p class="card-price">💰 R$ 200,00</p>
+                  <p class="card-preview">Paciente relata episódios recorrentes de ansiedade no trabalho e sintomas...</p>
+                  <button class="view-btn">Ver prontuário / Laudo</button>
+              </div>
+            </article>
+
+            <!-- Consulta 2 -->
+            <article class="appointment-card" 
+                     data-patient="Maria Oliveira" 
+                     data-type="Avaliação Neuropsicológica" 
+                     data-date="02/10/2026 às 10:00" 
+                     data-price="R$ 300,00" 
+                     data-img="https://via.placeholder.com/150" 
+                     data-history="Sessão de aplicação de testes cognitivos para investigação de foco e memória. Encaminhada por neurologista.">
+              <img src="https://via.placeholder.com/150" alt="Foto da Paciente" class="card-img">
+              <div class="card-info">
+                  <h3>Maria Oliveira</h3>
+                  <span class="specialty">Avaliação Neuropsicológica</span>
+                  <p class="card-date">🗓 02/10/2026 - 10:00</p>
+                  <p class="card-price">💰 R$ 300,00</p>
+                  <p class="card-preview">Sessão de aplicação de testes cognitivos para investigação de foco e memória...</p>
+                  <button class="view-btn">Ver prontuário / Laudo</button>
+              </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- Modal de Registro de Prontuário / Feedback -->
+    <dialog id="detailsModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" id="closeModalBtn">&times;</button>
+            <div class="modal-header">
+              <img id="modalImg" src="" alt="Foto do Paciente" class="modal-img">
+              <div>
+                  <h2 id="modalPatient"></h2>
+                  <p id="modalType" class="specialty"></p>
+              </div>
+            </div>
+            <div class="modal-body">
+              <p><strong>Horário:</strong> <span id="modalDate"></span></p>
+              <p><strong>Valor:</strong> <span id="modalPrice"></span></p>
+              <hr>
+              <h4>Histórico do Paciente:</h4>
+              <p id="modalHistory" class="feedback-text"></p>
+              
+              <hr>
+              <h4>Adicionar Anotações / Prescrição:</h4>
+              <textarea id="doctorNotes" rows="4" style="width: 100%; padding: 10px; margin-top: 8px; border-radius: 8px; border: 1px solid #ccc;" placeholder="Digite o parecer técnico, observações ou orientação..."></textarea>
+              
+              <button class="schedule-btn" id="saveNotesBtn" style="margin-top: 12px;">Salvar no Prontuário</button>
+            </div>
+        </div>
+    </dialog>
+
+    <!-- Seção Lista de Pacientes -->
+    <section id="pacientes" class="page-content">
+        <h1>Meus Pacientes</h1>
+        <p>Gestão e histórico de prontuários dos seus pacientes vinculados:</p>
+
+        <div class="cards-grid">
+            <article class="doctor-card" 
+                    data-name="João da Silva" 
+                    data-profession="Última consulta: 15/09/2026" 
+                    data-rating="5 Atendimentos realizados" 
+                    data-price="Plano: Individual" 
+                    data-img="https://via.placeholder.com/150" 
+                    data-bio="Paciente em acompanhamento semanal. Evolução positiva no manejo de crises de ansiedade. Mantém diário de pensamentos.">
+                <img src="https://via.placeholder.com/150" alt="João da Silva" class="card-img">
+                <div class="card-info">
+                    <h3>João da Silva</h3>
+                    <span class="specialty">Última consulta: 15/09/2026</span>
+                    <p class="card-rating">✔ 5 Atendimentos realizados</p>
+                    <p class="card-preview">Paciente em acompanhamento semanal. Evolução positiva no manejo de crises...</p>
+                    <button class="view-doctor-btn">Acessar Ficha Completa</button>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- Modal de Ficha de Paciente -->
+    <dialog id="doctorModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" id="closeDoctorModalBtn">&times;</button>
+            <div class="modal-header">
+                <img id="doctorModalImg" src="" alt="Foto do Paciente" class="modal-img">
+                <div>
+                    <h2 id="doctorModalName"></h2>
+                    <p id="doctorModalProfession" class="specialty"></p>
+                    <p id="doctorModalRating" class="card-rating"></p>
+                </div>
+            </div>
+            <div class="modal-body">
+                <hr>
+                <h4>Resumo Clínico:</h4>
+                <p id="doctorModalBio" class="feedback-text"></p>
+            </div>
+        </div>
+    </dialog>
+
+    <!-- Seção Perfil Profissional -->
+    <section id="perfil" class="page-content">
+        <div class="profile-header-container">
+            <h1>Perfil Profissional</h1>
+            <button type="button" id="openSettingsBtn" class="settings-nav-btn">
+              <i class="fa-solid fa-gear"></i> Configurações
+            </button>
+        </div>
+
+        <form id="profileForm" class="settings-form">
+            <div class="settings-group profile-card-edit">
+              <div class="profile-avatar-wrapper">
+                  <img id="profileAvatarPreview" src="https://via.placeholder.com/120" alt="Foto do especialista" class="profile-avatar-lg">
+                  <label for="avatarInput" class="avatar-upload-btn">
+                    <i class="fa-solid fa-camera"></i> Alterar Foto
+                  </label>
+                  <input type="file" id="avatarInput" accept="image/*" style="display: none;">
+              </div>
+
+              <!-- Nome -->
+              <div class="form-group">
+                  <label for="profileName">Nome Completo</label>
+                  <input type="text" id="profileName" name="profileName" value="Dra. Ana Silva">
+              </div>
+
+              <!-- Especialidade -->
+              <div class="form-group">
+                  <label for="profileSpecialty">Especialidade / Categoria</label>
+                  <select id="profileSpecialty" class="settings-select">
+                    <option value="psicologo" selected>Psicólogo(a)</option>
+                    <option value="psiquiatra">Psiquiatra</option>
+                    <option value="psicanalista">Psicanalista</option>
+                    <option value="neuropsicologo">Neuropsicólogo(a)</option>
+                  </select>
+              </div>
+
+              <!-- Conselho e UF -->
+              <div class="form-row" style="display: flex; gap: 10px;">
+                <div class="form-group" style="flex: 2;">
+                    <label for="councilNumber">Nº do Registro (CRM / CRP)</label>
+                    <input type="text" id="councilNumber" value="CRP 06/123456">
+                </div>
+                <div class="form-group" style="flex: 1;">
+                    <label for="councilUf">UF</label>
+                    <select id="councilUf" class="settings-select">
+                        <option value="SP" selected>SP</option>
+                        <option value="RJ">RJ</option>
+                        <option value="PE">PE</option>
+                        <option value="MG">MG</option>
+                    </select>
+                </div>
+              </div>
+
+              <!-- Valor Por Hora -->
+              <div class="form-group">
+                  <label for="hourlyRate">Valor da Consulta (R$ / hora)</label>
+                  <input type="text" id="hourlyRate" value="200,00">
+              </div>
+
+              <!-- Bio Profissional -->
+              <div class="form-group">
+                  <label for="profileBio">Apresentação e Abordagem Terapêutica</label>
+                  <textarea id="profileBio" name="profileBio" rows="4">Especialista em Terapia Cognitivo-Comportamental focada em transtornos de ansiedade, depressão e burnout.</textarea>
+              </div>
+
+              <button type="submit" class="save-settings-btn">Salvar Perfil Profissional</button>
+            </div>
+        </form>
+    </section>
+
+    <!-- Seção Configurações -->
+    <section id="configuracoes" class="page-content">
+        <div class="settings-header-container">
+            <button type="button" id="backToProfileBtn" class="btn-back">
+              <i class="fa-solid fa-arrow-left"></i> Voltar ao Perfil
+            </button>
+            <h1>Configurações da Conta</h1>
+        </div>
+
+        <form id="settingsForm" class="settings-form">
+            <div class="settings-group">
+              <h3>Acesso Profissional</h3>
+              <div class="form-group">
+                  <label for="userEmail">E-mail Profissional</label>
+                  <input type="email" id="userEmail" value="dra.anasilva@saudemental.com">
+              </div>
+              <div class="form-group">
+                  <label for="userPhone">Telefone / WhatsApp</label>
+                  <input type="tel" id="userPhone" value="(11) 99999-8888">
+              </div>
+            </div>
+
+            <div class="settings-group">
+              <h3>Notificações de Consultas</h3>
+              <div class="form-group-toggle">
+                  <label for="notifEmail">Alertas de novos agendamentos por e-mail</label>
+                  <input type="checkbox" id="notifEmail" class="toggle-checkbox" checked>
+              </div>
+              <div class="form-group-toggle">
+                  <label for="notifSms">Lembretes de sessão no WhatsApp</label>
+                  <input type="checkbox" id="notifSms" class="toggle-checkbox" checked>
+              </div>
+            </div>
+
+            <button type="submit" class="save-settings-btn">Salvar Configurações</button>
+
+            <button type="button" id="mobileLogoutBtn" class="mobile-logout-btn">
+              <i class="fa-solid fa-right-from-bracket"></i> Sair da Conta
+            </button>
+        </form>
+    </section>
+
+    <!-- Modal de Confirmação -->
+    <dialog id="confirmModal" class="modal">
+      <div class="modal-content">
+        <button class="modal-close" id="closeConfirmModalBtn">&times;</button>
+        <h3 id="confirmModalTitle">Confirmar</h3>
+        <p id="confirmModalMessage" style="margin: 16px 0;"></p>
+        <div class="confirm-modal-actions">
+          <button id="cancelConfirmBtn" class="btn-secondary">Cancelar</button>
+          <button id="actionConfirmBtn" class="btn-primary">Confirmar</button>
+        </div>
+      </div>
+    </dialog>
+
+    <section id="sair" class="page-content">
+      <h1>Sessão Encerrada</h1>
+      <p>Você desconectou da plataforma profissional.</p>
+    </section>
+  </main>
+
+  <!-- Bottom Navigation para Telas Pequenas -->
+  <footer class="bottom-nav">
+      <button class="nav-item active" data-target="home" aria-label="Agenda">
+          <i class="fa-solid fa-calendar-check"></i>
+      </button>
+      <button class="nav-item" data-target="pacientes" aria-label="Pacientes">
+          <i class="fa-solid fa-user-group"></i>
+      </button>
+      <button class="nav-item" data-target="perfil" aria-label="Perfil">
+          <i class="fa-solid fa-user-doctor"></i>
+      </button>
+  </footer>
+
+  <script src="../js/medico.js"></script>
+</body>
+</html>
