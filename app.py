@@ -2,7 +2,7 @@ import os
 import sys
 import sqlite3
 from flask import Flask, send_from_directory, request, jsonify
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 FRONTEND_DIR = os.path.join(BASE_DIR, "frontend")
@@ -23,31 +23,69 @@ init_db()
 def index():
     return send_from_directory(FRONTEND_DIR, "index.html")
 
-# Captura acessos diretos como /pages/login.html ou /pages/login
 @app.route("/pages/<path:page_name>")
 def serve_pages(page_name):
     if not page_name.endswith(".html"):
         page_name += ".html"
     return send_from_directory(PAGES_DIR, page_name)
 
-# Rota de segurança: se o navegador pedir /login.html ou /cadastro.html diretamente sem /pages/
 @app.route("/<path:page_name>")
 def serve_direct_html(page_name):
-    if not page_name.endswith(".html"):
-        page_name_html = page_name + ".html"
-    else:
-        page_name_html = page_name
+    page_name_html = page_name if page_name.endswith(".html") else page_name + ".html"
 
-    # Verifica se o ficheiro existe na pasta pages
     if os.path.exists(os.path.join(PAGES_DIR, page_name_html)):
         return send_from_directory(PAGES_DIR, page_name_html)
     
-    # Caso seja um recurso estático (CSS, JS, Imagens) na raiz de frontend
     return send_from_directory(FRONTEND_DIR, page_name)
 
 # ==========================================
-# ROTAS DE API (CADASTRO)
+# ROTAS DE API (AUTENTICAÇÃO E CADASTRO)
 # ==========================================
+
+@app.route("/api/login", methods=["POST"])
+def login():
+    data = request.get_json() or {}
+    email = data.get("email")
+    senha = data.get("senha")
+
+    if not email or not senha:
+        return jsonify({"success": False, "message": "Preencha e-mail e senha!"}), 400
+
+    conn = get_db()
+    cursor = conn.cursor()
+    
+    cursor.execute("SELECT id, nome, email, senha, role FROM users WHERE email = ?", (email,))
+    user = cursor.fetchone()
+    conn.close()
+
+    if not user:
+        return jsonify({"success": False, "message": "E-mail ou senha incorretos!"}), 401
+
+    user_id, nome, user_email, senha_hash, role = user
+
+    if not check_password_hash(senha_hash, senha):
+        return jsonify({"success": False, "message": "E-mail ou senha incorretos!"}), 401
+
+    # Redireciona conforme a permissão (role) gravada no banco
+    redirect_map = {
+        "admin": "/pages/admin.html",
+        "medico": "/pages/medico.html",
+        "paciente": "/pages/user.html"
+    }
+
+    redirect_url = redirect_map.get(role, "/pages/user.html")
+
+    return jsonify({
+        "success": True,
+        "message": "Login realizado com sucesso!",
+        "redirect_url": redirect_url,
+        "user": {
+            "id": user_id,
+            "nome": nome,
+            "email": user_email,
+            "role": role
+        }
+    }), 200
 
 @app.route("/api/register/user", methods=["POST"])
 def register_user():

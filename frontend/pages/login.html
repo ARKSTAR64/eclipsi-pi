@@ -3,36 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
+    <title>Login</title>
 
     <link rel="stylesheet" href="../css/style.css">
-    <script src="../js/api.js"></script>
 </head>
 <body>
     
     <main class="container">
         <div class="logo-tittle">
-            <img src="./src/images/tela-protoripo.png" alt="Tela de prototipação" class="logo">
+            <img src="../src/images/tela-protoripo.png" alt="Logo" class="logo">
             <h2 class="title">Login</h2>
         </div>
 
         <div class="register">
-            <form action="" class="register-form" id="registerForm">
+            <form class="register-form" id="registerForm">
                 <div class="sentence-line">
-                    <input type="text" id="email" class="register-input" placeholder="Coloque seu email" required>
+                    <input type="email" id="email" class="register-input" placeholder="Digite seu e-mail" required>
                 </div>
                 <div class="sentence-line">
-                    <input type="password" id="password" class="register-input" placeholder="Coloque sua senha" required >
+                    <input type="password" id="password" class="register-input" placeholder="Digite sua senha" required>
                 </div>
 
                 <div class="btn-line">
                     <button class="register-btn" type="submit">Entrar</button>
-                    <button class="back-btn" type="button" onclick="history.back()">Voltar</button>
-                    <p class="register-p">Já fez um cadastro? <a href="/" class="register-link">Clique aqui!</a></p>
+                    <button class="back-btn" type="button" onclick="window.location.href='/'">Voltar</button>
+                    <p class="register-p">Ainda não tem conta? <a href="/pages/cadastro.html" class="register-link">Cadastre-se</a></p>
                 </div>
             </form>
         </div>
     </main>
 
+    <script src="../js/api.js"></script>
 </body>
 </html>
