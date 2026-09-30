@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel Administrativo - Saúde Mental</title>
+
+  <!-- Biblioteca Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../css/medico.css">
+  <style>
+    /* Estilos específicos para a visão administrativa */
+    .table-container {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      overflow-x: auto;
+      margin-top: 16px;
+    }
+
+    .admin-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    .admin-table th, .admin-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .admin-table th {
+      background-color: #f5dfff;
+      color: #7500a8;
+      font-weight: bold;
+    }
+
+    .badge {
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      font-weight: bold;
+    }
+
+    .badge-paciente { background-color: #e3f2fd; color: #1976d2; }
+    .badge-medico { background-color: #f3e5f5; color: #7500a8; }
+
+    .btn-edit-user {
+      background-color: #7500a8;
+      color: #fff;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 16px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: bold;
+    }
+
+    .btn-edit-user:hover {
+      background-color: #58007e;
+    }
+
+    .stats-category-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .category-card {
+      background-color: #ffffff;
+      border-radius: 10px;
+      padding: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      border-top: 4px solid #7500a8;
+    }
+
+    .category-card h4 {
+      color: #555;
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+    }
+
+    .category-card .count {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #7500a8;
+    }
+
+    /* Botão de Excluir Perfil dentro do Modal */
+    .btn-delete-user {
+      background-color: #d9534f;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: background 0.2s;
+    }
+
+    .btn-delete-user:hover {
+      background-color: #c9302c;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-left">
+      <button class="burger-btn" id="burgerBtn" aria-label="Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <a href="#" class="logo">MinhaLogo | Administrador</a>
+    </div>
+
+    <div class="header-right">
+      <input type="text" class="search-input" placeholder="Buscar usuários...">
+      <img src="https://via.placeholder.com/40" alt="Foto Admin" class="profile-img">
+    </div>
+  </header>
+
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <h2>Menu Painel Admin</h2>
+      <button class="close-btn" id="closeBtn">&times;</button>
+    </div>
+    <nav class="sidebar-nav">
+        <button class="nav-item active" data-target="usuarios"><i class="fa-solid fa-users"></i> Gestão de Usuários</button>
+        <button class="nav-item" data-target="estatisticas"><i class="fa-solid fa-chart-line"></i> Estatísticas Gerais</button>
+        <button class="nav-item" data-target="perfil"><i class="fa-solid fa-user-gear"></i> Perfil e Configurações</button>
+        <button class="nav-item logout" data-target="sair"><i class="fa-solid fa-right-from-bracket"></i> Sair</button>
+    </nav>
+  </aside>
+
+  <!-- Conteúdo Principal -->
+  <main class="content-container">
+
+    <!-- Aba 1: Lista de Usuários -->
+    <section id="usuarios" class="page-content active">
+      <h1>Gerenciamento de Usuários</h1>
+      <p>Visualize e gerencie as contas cadastradas na plataforma:</p>
+
+      <div class="table-container">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Usuário</th>
+              <th>E-mail</th>
+              <th>Tipo</th>
+              <th>Data Cadastro</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <strong>Dra. Ana Silva</strong><br>
+                <small style="color: #666;">CRP 06/123456</small>
+              </td>
+              <td>dra.anasilva@saudemental.com</td>
+              <td><span class="badge badge-medico">Médico (Psicólogo)</span></td>
+              <td>10/01/2026</td>
+              <td>
+                <button class="btn-edit-user" onclick="openEditUserModal('Dra. Ana Silva', 'dra.anasilva@saudemental.com', 'Médico', 'CRP 06/123456', '(81) 99999-1111', 'ativo')">
+                  <i class="fa-solid fa-pen"></i> Editar
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>João da Silva</strong></td>
+              <td>joao.silva@email.com</td>
+              <td><span class="badge badge-paciente">Paciente</span></td>
+              <td>15/02/2026</td>
+              <td>
+                <button class="btn-edit-user" onclick="openEditUserModal('João da Silva', 'joao.silva@email.com', 'Paciente', 'N/A', '(81) 98888-2222', 'ativo')">
+                  <i class="fa-solid fa-pen"></i> Editar
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Maria Oliveira</strong></td>
+              <td>maria.oliveira@email.com</td>
+              <td><span class="badge badge-paciente">Paciente</span></td>
+              <td>03/03/2026</td>
+              <td>
+                <button class="btn-edit-user" onclick="openEditUserModal('Maria Oliveira', 'maria.oliveira@email.com', 'Paciente', 'N/A', '(81) 97777-3333', 'suspenso')">
+                  <i class="fa-solid fa-pen"></i> Editar
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <strong>Dr. Carlos Mendes</strong><br>
+                <small style="color: #666;">CRM 12345/PE</small>
+              </td>
+              <td>carlos.mendes@saudemental.com</td>
+              <td><span class="badge badge-medico">Médico (Psiquiatra)</span></td>
+              <td>18/05/2026</td>
+              <td>
+                <button class="btn-edit-user" onclick="openEditUserModal('Dr. Carlos Mendes', 'carlos.mendes@saudemental.com', 'Médico', 'CRM 12345/PE', '(81) 96666-4444', 'ativo')">
+                  <i class="fa-solid fa-pen"></i> Editar
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Aba 2: Estatísticas da Plataforma -->
+    <section id="estatisticas" class="page-content">
+      <h1>Estatísticas Globais</h1>
+      <p>Métricas financeiras e fluxo de novos cadastros na plataforma:</p>
+
+      <div class="earnings-container">
+        <h3 class="earnings-title"><i class="fa-solid fa-sack-dollar"></i> Arrecadação Financeira</h3>
+        <div class="earnings-grid">
+          <div class="earnings-card">
+            <span class="earnings-label">Arrecadado neste Mês (Setembro)</span>
+            <span class="earnings-value">R$ 38.500,00</span>
+            <small class="earnings-subtext"><i class="fa-solid fa-arrow-up"></i> +8.5% que o mês anterior</small>
+          </div>
+          <div class="earnings-card highlight">
+            <span class="earnings-label">Arrecadado no Ano (2026)</span>
+            <span class="earnings-value">R$ 412.000,00</span>
+            <small class="earnings-subtext">Taxa da plataforma e repasses</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="earnings-container" style="margin-top: 32px;">
+        <h3 class="earnings-title"><i class="fa-solid fa-user-plus"></i> Novos Cadastros de Usuários</h3>
+        <div class="earnings-grid">
+          <div class="earnings-card">
+            <span class="earnings-label">Usuários Comuns (Pacientes)</span>
+            <span class="earnings-value">142</span>
+            <small class="earnings-subtext">Cadastrados no último mês</small>
+            <p style="margin-top: 8px; font-size: 0.85rem; color: #666;">Total no ano: <strong>1.280</strong></p>
+          </div>
+          <div class="earnings-card">
+            <span class="earnings-label">Médicos / Profissionais</span>
+            <span class="earnings-value">18</span>
+            <small class="earnings-subtext">Cadastrados no último mês</small>
+            <p style="margin-top: 8px; font-size: 0.85rem; color: #666;">Total no ano: <strong>145</strong></p>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top: 32px;">
+        <h3 class="earnings-title"><i class="fa-solid fa-user-doctor"></i> Profissionais por Especialidade</h3>
+        <div class="stats-category-grid">
+          <div class="category-card">
+            <h4>Psicólogos</h4>
+            <div class="count">68</div>
+            <small style="color: #666;">46.8% do total</small>
+          </div>
+          <div class="category-card">
+            <h4>Psiquiatras</h4>
+            <div class="count">34</div>
+            <small style="color: #666;">23.4% do total</small>
+          </div>
+          <div class="category-card">
+            <h4>Neuropsicólogos</h4>
+            <div class="count">25</div>
+            <small style="color: #666;">17.2% do total</small>
+          </div>
+          <div class="category-card">
+            <h4>Psicanalistas</h4>
+            <div class="count">18</div>
+            <small style="color: #666;">12.6% do total</small>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Aba 3: Perfil do Administrador -->
+    <section id="perfil" class="page-content">
+      <h1>Perfil do Administrador</h1>
+      <p>Gerencie e altere as configurações da sua conta de Administrador:</p>
+
+      <form id="adminProfileForm" class="settings-form">
+        <div class="settings-group">
+          <div class="profile-avatar-wrapper">
+            <img src="https://via.placeholder.com/120" alt="Avatar Admin" class="profile-avatar-lg">
+            <label class="avatar-upload-btn">
+              Alterar Foto <input type="file" hidden accept="image/*">
+            </label>
+          </div>
+
+          <div class="form-group">
+            <label>Nome Completo</label>
+            <input type="text" id="adminName" value="Administrador Principal" required>
+          </div>
+
+          <div class="form-group">
+            <label>E-mail Corporativo</label>
+            <input type="email" id="adminEmail" value="admin@saudemental.com" required>
+          </div>
+
+          <div class="form-group">
+            <label>Nova Senha</label>
+            <input type="password" id="adminPassword" placeholder="Deixe em branco para manter a atual">
+          </div>
+
+          <button type="submit" class="save-settings-btn">Salvar Alterações do Admin</button>
+        </div>
+      </form>
+    </section>
+
+    <section id="sair" class="page-content">
+      <h1>Sessão Encerrada</h1>
+      <p>Você desconectou da conta do Administrador.</p>
+    </section>
+
+  </main>
+
+  <!-- Modal para Visualizar, Editar e Excluir Perfil de Usuário -->
+  <dialog id="editUserModal" class="modal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="document.getElementById('editUserModal').close()">&times;</button>
+      <h2>Perfil do Usuário</h2>
+      <p style="font-size: 0.85rem; color: #666; margin-top: 4px;">Edite as informações abaixo ou remova a conta.</p>
+
+      <form id="editUserForm" style="margin-top: 16px; display: flex; flex-direction: column; gap: 12px;">
+        <div class="form-group">
+          <label>Nome Completo</label>
+          <input type="text" id="editUserName" required>
+        </div>
+
+        <div class="form-group">
+          <label>E-mail</label>
+          <input type="email" id="editUserEmail" required>
+        </div>
+
+        <div class="form-group">
+          <label>Tipo de Conta</label>
+          <select class="settings-select" id="editUserRole">
+            <option value="Paciente">Paciente</option>
+            <option value="Médico">Médico / Profissional</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Registro / CRM / CRP</label>
+          <input type="text" id="editUserDoc" placeholder="N/A ou Número do Registro">
+        </div>
+
+        <div class="form-group">
+          <label>Telefone / Contato</label>
+          <input type="text" id="editUserPhone">
+        </div>
+
+        <div class="form-group">
+          <label>Status da Conta</label>
+          <select class="settings-select" id="editUserStatus">
+            <option value="ativo">Ativo</option>
+            <option value="suspenso">Suspenso</option>
+            <option value="pendente">Pendente de Aprovação</option>
+          </select>
+        </div>
+
+        <button type="submit" class="save-settings-btn" style="margin-top: 8px;">
+          <i class="fa-solid fa-floppy-disk"></i> Salvar Alterações
+        </button>
+        
+        <button type="button" class="btn-delete-user" onclick="deleteUserProfile()">
+          <i class="fa-solid fa-trash"></i> Excluir Perfil Permanentemente
+        </button>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- Navigation Mobile -->
+  <footer class="bottom-nav">
+      <button class="nav-item active" data-target="usuarios" aria-label="Usuários">
+          <i class="fa-solid fa-users"></i>
+      </button>
+      <button class="nav-item" data-target="estatisticas" aria-label="Estatísticas">
+          <i class="fa-solid fa-chart-line"></i>
+      </button>
+      <button class="nav-item" data-target="perfil" aria-label="Perfil">
+          <i class="fa-solid fa-user-gear"></i>
+      </button>
+  </footer>
+
+  <script src="../js/admin.js"></script>
+</body>
+</html>

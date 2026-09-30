@@ -204,6 +204,58 @@ document.addEventListener('DOMContentLoaded', () => {
       );
     });
   }
+  // Adicionar dentro do evento DOMContentLoaded
+    const openSettingsBtn = document.getElementById('openSettingsBtn');
+    const backToProfileBtn = document.getElementById('backToProfileBtn');
+    const profileForm = document.getElementById('profileForm');
+    const avatarInput = document.getElementById('avatarInput');
+    const profileAvatarPreview = document.getElementById('profileAvatarPreview');
+
+    // Navegar do Perfil para Configurações via botão
+    if (openSettingsBtn) {
+    openSettingsBtn.addEventListener('click', () => {
+        document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
+        document.getElementById('configuracoes').classList.add('active');
+    });
+    }
+
+    // Voltar do menu de Configurações para o Perfil
+    if (backToProfileBtn) {
+    backToProfileBtn.addEventListener('click', () => {
+        document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
+        document.getElementById('perfil').classList.add('active');
+    });
+    }
+
+    // Preview da alteração da foto de perfil
+    if (avatarInput && profileAvatarPreview) {
+    avatarInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            profileAvatarPreview.src = event.target.result;
+        };
+        reader.readAsDataURL(file);
+        }
+    });
+    }
+
+    // Submissão do Formulário de Perfil
+    if (profileForm) {
+    profileForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        openConfirmModal(
+        'Salvar Perfil',
+        'Deseja salvar as alterações em seu perfil?',
+        'Confirmar',
+        false,
+        () => {
+            alert('Perfil atualizado com sucesso!');
+        }
+        );
+    });
+    }
 });
 
 // Manipulação dos Cards de Profissionais e Modal
@@ -394,3 +446,47 @@ function renderOfflineAppointments() {
 }
 
 renderOfflineAppointments();
+// --- Lógica do Modal de Avaliação de Consultas Realizadas ---
+const ratingModal = document.getElementById('ratingModal');
+const closeRatingModalBtn = document.getElementById('closeRatingModalBtn');
+const ratingDoctorName = document.getElementById('ratingDoctorName');
+const ratingForm = document.getElementById('ratingForm');
+const rateButtons = document.querySelectorAll('.rate-btn');
+
+rateButtons.forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation(); // Evita abrir o modal de detalhes da consulta ao clicar em avaliar
+    const doctorName = btn.getAttribute('data-doctor-name');
+    ratingDoctorName.textContent = `Profissional: ${doctorName}`;
+    ratingForm.reset();
+    ratingModal.showModal();
+  });
+});
+
+if (closeRatingModalBtn) {
+  closeRatingModalBtn.addEventListener('click', () => {
+    ratingModal.close();
+  });
+}
+
+if (ratingModal) {
+  ratingModal.addEventListener('click', (e) => {
+    const rect = ratingModal.getBoundingClientRect();
+    const isInDialog = (
+      rect.top <= e.clientY &&
+      e.clientY <= rect.bottom &&
+      rect.left <= e.clientX &&
+      e.clientX <= rect.right
+    );
+    if (!isInDialog) ratingModal.close();
+  });
+}
+
+if (ratingForm) {
+  ratingForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const ratingValue = ratingForm.querySelector('input[name="rating"]:checked')?.value;
+    alert(`Obrigado! Sua avaliação de ${ratingValue} estrelas foi registrada com sucesso.`);
+    ratingModal.close();
+  });
+}

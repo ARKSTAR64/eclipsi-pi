@@ -5,20 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro do Profissional - Saúde Mental</title>
 
-    <link rel="stylesheet" href="../css/cadastro.css">
-    <script src="../js/api.js" defer></script>
+    <link rel="stylesheet" href="/css/cadastro.css">
+    <script src="/js/api.js" defer></script>
 </head>
 <body>
     
     <main class="container">
         <div class="logo-tittle">
-            <img src="./src/images/tela-protoripo.png" alt="Logo da plataforma" class="logo">
+            <img src="/images/tela-protoripo.png" alt="Logo da plataforma" class="logo">
             <h2 class="title">Cadastro do Profissional</h2>
             <p class="subtitle">Exclusivo para especialistas em Saúde Mental</p>
         </div>
 
         <div class="register">
-            <form action="" class="register-form" id="registerForm" method="POST">
+            <form class="register-form" id="form-medico" method="POST">
                 
                 <!-- Nome Completo -->
                 <div class="sentence-line">
@@ -47,12 +47,12 @@
                     </select>
                 </div>
 
-                <!-- Grupo para Conselho e UF lado a lado -->
-                <div class="form-row">
-                    <div class="sentence-line">
+                <!-- Grupo para Conselho e UF -->
+                <div class="form-row" style="display: flex; gap: 10px;">
+                    <div class="sentence-line" style="flex: 2;">
                         <input type="text" id="council-number" class="register-input" placeholder="Nº do Registro (CRM / CRP / etc)" required>
                     </div>
-                    <div class="sentence-line sentence-line-sm">
+                    <div class="sentence-line sentence-line-sm" style="flex: 1;">
                         <select id="council-uf" class="register-input register-select" required>
                             <option value="" disabled selected>UF</option>
                             <option value="AC">AC</option><option value="AL">AL</option><option value="AP">AP</option>
@@ -68,6 +68,11 @@
                     </div>
                 </div>
 
+                <!-- Descrição / Forma de trabalhar -->
+                <div class="sentence-line">
+                    <textarea id="description" class="register-input" placeholder="Apresentação / Forma de trabalhar (opcional)" rows="3" style="resize: vertical; padding-top: 10px;"></textarea>
+                </div>
+
                 <!-- Senha -->
                 <div class="sentence-line">
                     <input type="password" id="password" class="register-input" placeholder="Crie uma senha" required>
@@ -78,10 +83,11 @@
                     <input type="password" id="confirm-password" class="register-input" placeholder="Confirme sua senha" required>
                 </div>
 
-                <!-- Botão e Link de Login -->
+                <!-- Botões e Link de Login -->
                 <div class="btn-line">
                     <button class="register-btn" type="submit">Cadastrar Profissional</button>
-                    <p class="register-p">Já possui conta? <a href="./login.html" class="register-link">Clique aqui!</a></p>
+                    <button class="back-btn" type="button" onclick="history.back()">Voltar</button>
+                    <p class="register-p">Já possui conta? <a href="/pages/login.html" class="register-link">Clique aqui!</a></p>
                 </div>
             </form>
         </div>

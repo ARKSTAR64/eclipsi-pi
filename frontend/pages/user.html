@@ -44,67 +44,108 @@
       <button class="close-btn" id="closeBtn">&times;</button>
     </div>
     <nav class="sidebar-nav">
-      <button class="nav-item active" data-target="home">Home</button>
-      <button class="nav-item" data-target="consultas">Buscar Consultas</button>
-      <button class="nav-item" data-target="configuracoes">Configurações</button>
-      <button class="nav-item logout" data-target="sair">Sair</button>
+        <button class="nav-item active" data-target="home">Home</button>
+        <button class="nav-item" data-target="consultas">Buscar Consultas</button>
+        <button class="nav-item" data-target="perfil">Perfil</button>
+        <button class="nav-item logout" data-target="sair">Sair</button>
     </nav>
   </aside>
 
   <!-- Conteúdo Principal da Página -->
   <main class="content-container">
+  
     <!-- Seção Home -->
     <section id="home" class="page-content active">
         <h1>Página Inicial</h1>
-        <p>Histórico e acompanhamento de consultas:</p>
+        <p>Acompanhe suas consultas agendadas e seu histórico de atendimentos:</p>
 
-        <div class="cards-grid">
-            <!-- Card 1 -->
-            <article class="appointment-card" data-doctor="Dra. Ana Silva" data-specialty="Psicóloga" data-date="28/09/2026" data-price="R$ 180,00" data-img="https://via.placeholder.com/150" data-feedback="Paciente apresentou excelente evolução nas sessões de TCC. Recomenda-se manter a rotina diária de diário de pensamentos e exercícios de respiração diafragmática para controle de ansiedade. Próximo retorno em 15 dias.">
-              <img src="https://via.placeholder.com/150" alt="Dra. Ana Silva" class="card-img">
-              <div class="card-info">
-                  <h3>Dra. Ana Silva</h3>
-                  <span class="specialty">Psicóloga</span>
-                  <p class="card-date">🗓 28/09/2026</p>
-                  <p class="card-price">💰 R$ 180,00</p>
-                  <p class="card-preview">Paciente apresentou excelente evolução nas sessões de TCC. Recomenda-se manter a rotina...</p>
-                  <button class="view-btn">Ver detalhes</button>
-              </div>
+        <!-- SEÇÃO: PRÓXIMAS CONSULTAS -->
+        <div class="home-section">
+            <h2 class="section-title"><i class="fa-regular fa-calendar-check"></i> Próximas Consultas</h2>
+            <div class="cards-grid">
+            <!-- Consulta Agendada 1 -->
+            <article class="appointment-card upcoming">
+                <img src="https://via.placeholder.com/150" alt="Dra. Mariana Costa" class="card-img">
+                <div class="card-info">
+                <h3>Dra. Mariana Costa</h3>
+                <span class="specialty">Psicóloga</span>
+                <p class="card-date">🗓 10/10/2026 às 14:00</p>
+                <p class="card-price">💰 R$ 200,00</p>
+                <span class="status-badge upcoming-badge">Agendada</span>
+                <button class="view-btn">Ver detalhes</button>
+                </div>
+            </article>
+            </div>
+        </div>
+
+        <hr class="section-divider">
+
+        <!-- SEÇÃO: CONSULTAS REALIZADAS -->
+        <div class="home-section">
+            <h2 class="section-title"><i class="fa-solid fa-clock-rotate-left"></i> Consultas Realizadas</h2>
+            <div class="cards-grid">
+            <!-- Consulta Realizada 1 -->
+            <article class="appointment-card completed" data-doctor="Dra. Ana Silva" data-specialty="Psicóloga" data-date="28/09/2026" data-price="R$ 180,00" data-img="https://via.placeholder.com/150" data-feedback="Paciente apresentou excelente evolução nas sessões de TCC. Recomenda-se manter a rotina diária de diário de pensamentos e exercícios de respiração diafragmática.">
+                <img src="https://via.placeholder.com/150" alt="Dra. Ana Silva" class="card-img">
+                <div class="card-info">
+                <h3>Dra. Ana Silva</h3>
+                <span class="specialty">Psicóloga</span>
+                <p class="card-date">🗓 28/09/2026</p>
+                <p class="card-price">💰 R$ 180,00</p>
+                <p class="card-preview">Paciente apresentou excelente evolução nas sessões de TCC...</p>
+                <div class="card-actions">
+                    <button class="view-btn">Ver detalhes</button>
+                    <button class="rate-btn" data-doctor-name="Dra. Ana Silva">
+                    <i class="fa-solid fa-star"></i> Avaliar
+                    </button>
+                </div>
+                </div>
             </article>
 
-            <!-- Card 2 -->
-            <article class="appointment-card" data-doctor="Dr. Carlos Eduardo" data-specialty="Psiquiatra" data-date="15/09/2026" data-price="R$ 350,00" data-img="https://via.placeholder.com/150" data-feedback="Manutenção da medicação atual por mais 30 dias. Encaminhamento enviado para acompanhamento conjunto com neuropsicólogo para avaliação de foco e atenção. Exames laboratoriais solicitados.">
-              <img src="https://via.placeholder.com/150" alt="Dr. Carlos Eduardo" class="card-img">
-              <div class="card-info">
-                  <h3>Dr. Carlos Eduardo</h3>
-                  <span class="specialty">Psiquiatra</span>
-                  <p class="card-date">🗓 15/09/2026</p>
-                  <p class="card-price">💰 R$ 350,00</p>
-                  <p class="card-preview">Manutenção da medicação atual por mais 30 dias. Encaminhamento enviado para acompanhamento...</p>
-                  <button class="view-btn">Ver detalhes</button>
-              </div>
+            <!-- Consulta Realizada 2 -->
+            <article class="appointment-card completed" data-doctor="Dr. Carlos Eduardo" data-specialty="Psiquiatra" data-date="15/09/2026" data-price="R$ 350,00" data-img="https://via.placeholder.com/150" data-feedback="Manutenção da medicação atual por mais 30 dias. Encaminhamento enviado para acompanhamento conjunto com neuropsicólogo.">
+                <img src="https://via.placeholder.com/150" alt="Dr. Carlos Eduardo" class="card-img">
+                <div class="card-info">
+                <h3>Dr. Carlos Eduardo</h3>
+                <span class="specialty">Psiquiatra</span>
+                <p class="card-date">🗓 15/09/2026</p>
+                <p class="card-price">💰 R$ 350,00</p>
+                <p class="card-preview">Manutenção da medicação atual por mais 30 dias...</p>
+                <div class="card-actions">
+                    <button class="view-btn">Ver detalhes</button>
+                    <button class="rate-btn" data-doctor-name="Dr. Carlos Eduardo">
+                    <i class="fa-solid fa-star"></i> Avaliar
+                    </button>
+                </div>
+                </div>
             </article>
+            </div>
         </div>
     </section>
 
-    <!-- Dialog / Modal de Detalhes -->
-    <dialog id="detailsModal" class="modal">
+    <!-- Modal de Avaliação do Médico -->
+    <dialog id="ratingModal" class="modal">
         <div class="modal-content">
-            <button class="modal-close" id="closeModalBtn">&times;</button>
-            <div class="modal-header">
-              <img id="modalImg" src="" alt="Foto do Profissional" class="modal-img">
-              <div>
-                  <h2 id="modalDoctor"></h2>
-                  <p id="modalSpecialty" class="specialty"></p>
-              </div>
-            </div>
-            <div class="modal-body">
-              <p><strong>Data da consulta:</strong> <span id="modalDate"></span></p>
-              <p><strong>Valor:</strong> <span id="modalPrice"></span></p>
-              <hr>
-              <h4>Feedback / Prescrição:</h4>
-              <p id="modalFeedback" class="feedback-text"></p>
-            </div>
+            <button class="modal-close" id="closeRatingModalBtn">&times;</button>
+            <h2>Avaliar Atendimento</h2>
+            <p id="ratingDoctorName" class="specialty" style="font-size: 1rem; margin-top: 4px;"></p>
+
+            <form id="ratingForm" style="margin-top: 16px;">
+                <div class="star-rating">
+                    <input type="radio" id="star5" name="rating" value="5" required/><label for="star5" title="5 estrelas">★</label>
+                    <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="4 estrelas">★</label>
+                    <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="3 estrelas">★</label>
+                    <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="2 estrelas">★</label>
+                    <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="1 estrela">★</label>
+                </div>
+
+                <div class="form-group" style="margin-top: 16px;">
+                    <label for="ratingComment">Deixe seu comentário (opcional):</label>
+                    <textarea id="ratingComment" rows="4" placeholder="Como foi sua experiência com este profissional?"></textarea>
+                </div>
+
+                <button type="submit" class="save-settings-btn" style="margin-top: 16px; width: 100%;">Enviar Avaliação</button>
+            </form>
         </div>
     </dialog>
 
@@ -216,63 +257,110 @@
     </dialog>
 
     <!-- Seção Configurações -->
-    <section id="configuracoes" class="page-content">
-      <h1>Configurações</h1>
-      <p>Gerencie suas preferências e dados de conta.</p>
-
-      <form id="settingsForm" class="settings-form">
-        <!-- Informações Pessoais -->
-        <div class="settings-group">
-          <h3>Informações Pessoais</h3>
-          <div class="form-group">
-            <label for="userName">Nome Completo</label>
-            <input type="text" id="userName" name="userName" value="João da Silva">
-          </div>
-          <div class="form-group">
-            <label for="userEmail">E-mail</label>
-            <input type="email" id="userEmail" name="userEmail" value="joao.silva@email.com">
-          </div>
-          <div class="form-group">
-            <label for="userPhone">Telefone</label>
-            <input type="tel" id="userPhone" name="userPhone" value="(11) 98765-4321">
-          </div>
+    <section id="perfil" class="page-content">
+        <div class="profile-header-container">
+            <h1>Meu Perfil</h1>
+            <button type="button" id="openSettingsBtn" class="settings-nav-btn">
+            <i class="fa-solid fa-gear"></i> Configurações
+            </button>
         </div>
 
-        <!-- Preferências do Aplicativo -->
-        <div class="settings-group">
-          <h3>Preferências do Aplicativo</h3>
-          <div class="form-group-toggle">
-            <label for="notifEmail">Notificações por E-mail</label>
-            <input type="checkbox" id="notifEmail" class="toggle-checkbox" checked>
-          </div>
-          <div class="form-group-toggle">
-            <label for="notifSms">Notificações por SMS/WhatsApp</label>
-            <input type="checkbox" id="notifSms" class="toggle-checkbox">
-          </div>
-          <div class="form-group">
-            <label for="appTheme">Tema da Interface</label>
-            <select id="appTheme" class="settings-select">
-              <option value="light" selected>Claro (Padrão)</option>
-              <option value="dark">Escuro</option>
-            </select>
-          </div>
+        <form id="profileForm" class="settings-form">
+            <div class="settings-group profile-card-edit">
+            <!-- Foto de Perfil com upload/preview -->
+            <div class="profile-avatar-wrapper">
+                <img id="profileAvatarPreview" src="https://via.placeholder.com/120" alt="Foto de perfil" class="profile-avatar-lg">
+                <label for="avatarInput" class="avatar-upload-btn">
+                <i class="fa-solid fa-camera"></i> Alterar Foto
+                </label>
+                <input type="file" id="avatarInput" accept="image/*" style="display: none;">
+            </div>
+
+            <!-- Nome -->
+            <div class="form-group">
+                <label for="profileName">Nome</label>
+                <input type="text" id="profileName" name="profileName" value="João da Silva">
+            </div>
+
+            <!-- Gênero -->
+            <div class="form-group">
+                <label for="profileGender">Gênero</label>
+                <select id="profileGender" class="settings-select">
+                <option value="homem-cis" selected>Homem cisgênero</option>
+                <option value="mulher-cis">Mulher cisgênero</option>
+                <option value="homem-trans">Homem transgênero</option>
+                <option value="mulher-trans">Mulher transgênera</option>
+                <option value="nao-binario">Não-binário</option>
+                <option value="outro">Outro / Prefiro não dizer</option>
+                </select>
+            </div>
+
+            <!-- Descrição (Bio) -->
+            <div class="form-group">
+                <label for="profileBio">Descrição de si mesmo (Bio)</label>
+                <textarea id="profileBio" name="profileBio" rows="4" placeholder="Conte um pouco sobre você...">Buscando autoconhecimento e uma rotina mais saudável.</textarea>
+            </div>
+
+            <button type="submit" class="save-settings-btn">Salvar Perfil</button>
+            </div>
+        </form>
+        </section>
+
+        <!-- Seção Configurações (Acessada via Botão do Perfil) -->
+        <section id="configuracoes" class="page-content">
+        <div class="settings-header-container">
+            <button type="button" id="backToProfileBtn" class="btn-back">
+            <i class="fa-solid fa-arrow-left"></i> Voltar ao Perfil
+            </button>
+            <h1>Configurações</h1>
         </div>
 
-        <!-- Ações do Formulário -->
-        <button type="submit" class="save-settings-btn">Salvar Alterações</button>
+        <form id="settingsForm" class="settings-form">
+            <!-- Informações da Conta -->
+            <div class="settings-group">
+            <h3>Informações de Acesso</h3>
+            <div class="form-group">
+                <label for="userEmail">E-mail</label>
+                <input type="email" id="userEmail" name="userEmail" value="joao.silva@email.com">
+            </div>
+            <div class="form-group">
+                <label for="userPhone">Telefone</label>
+                <input type="tel" id="userPhone" name="userPhone" value="(11) 98765-4321">
+            </div>
+            </div>
 
-        <!-- Botão Exclusivo para Mobile: Sair da Conta -->
-        <button type="button" id="mobileLogoutBtn" class="mobile-logout-btn">
-          <i class="fa-solid fa-right-from-bracket"></i> Sair da Conta
-        </button>
+            <!-- Preferências do Aplicativo -->
+            <div class="settings-group">
+            <h3>Preferências do Aplicativo</h3>
+            <div class="form-group-toggle">
+                <label for="notifEmail">Notificações por E-mail</label>
+                <input type="checkbox" id="notifEmail" class="toggle-checkbox" checked>
+            </div>
+            <div class="form-group-toggle">
+                <label for="notifSms">Notificações por SMS/WhatsApp</label>
+                <input type="checkbox" id="notifSms" class="toggle-checkbox">
+            </div>
+            <div class="form-group">
+                <label for="appTheme">Tema da Interface</label>
+                <select id="appTheme" class="settings-select">
+                <option value="light" selected>Claro (Padrão)</option>
+                <option value="dark">Escuro</option>
+                </select>
+            </div>
+            </div>
 
-        <!-- Zona de Perigo -->
-        <div class="danger-zone">
-          <h3>Zona de Perigo</h3>
-          <p>Esta ação é irreversível. Todos os seus dados serão excluídos permanentemente.</p>
-          <button type="button" id="deleteAccountBtn" class="delete-account-btn">Excluir Minha Conta</button>
-        </div>
-      </form>
+            <button type="submit" class="save-settings-btn">Salvar Configurações</button>
+
+            <button type="button" id="mobileLogoutBtn" class="mobile-logout-btn">
+            <i class="fa-solid fa-right-from-bracket"></i> Sair da Conta
+            </button>
+
+            <div class="danger-zone">
+            <h3>Zona de Perigo</h3>
+            <p>Esta ação é irreversível. Todos os seus dados serão excluídos permanentemente.</p>
+            <button type="button" id="deleteAccountBtn" class="delete-account-btn">Excluir Minha Conta</button>
+            </div>
+        </form>
     </section>
 
     <!-- Modal de Confirmação de Alterações / Exclusão -->
@@ -295,17 +383,17 @@
   </main>
 
   <!-- Bottom Navigation / Footer para Telas Pequenas -->
-  <footer class="bottom-nav">
-    <button class="nav-item active" data-target="home" aria-label="Home">
-      <i class="fa-solid fa-house"></i>
-    </button>
-    <button class="nav-item" data-target="consultas" aria-label="Buscar Consultas">
-      <i class="fa-solid fa-magnifying-glass"></i>
-    </button>
-    <button class="nav-item" data-target="configuracoes" aria-label="Configurações">
-      <i class="fa-solid fa-gear"></i>
-    </button>
-  </footer>
+    <footer class="bottom-nav">
+        <button class="nav-item active" data-target="home" aria-label="Home">
+            <i class="fa-solid fa-house"></i>
+        </button>
+        <button class="nav-item" data-target="consultas" aria-label="Buscar Consultas">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+        <button class="nav-item" data-target="perfil" aria-label="Perfil">
+            <i class="fa-solid fa-user"></i>
+        </button>
+    </footer>
 
   <script src="/js/user.js"></script>
   <script>
@@ -317,5 +405,6 @@
       });
     }
   </script>
+  <script src="../js/user.js"></script>
 </body>
 </html>
