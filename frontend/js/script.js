@@ -1,7 +1,7 @@
 function medChange() {
-    window.location.href = "cadastro-medico.html"
+    window.location.href = "/frontend/pages/cadastro-medico.html"
 }
 
 function pacChange() {
-    window.location.href = "cadastro-user.html"
+    window.location.href = "/frontend/pages/cadastro-user.html"
 }
