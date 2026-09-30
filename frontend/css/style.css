@@ -1,18 +1,16 @@
 * {
     margin: 0;
-    padding: 0;
     box-sizing: border-box;
 }
 
-body {
+body{
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
-    min-height: 100vh;
-    padding: 20px 0;
+    height: 100vh;
+    padding: 0;
     background-color: #1d0027;
-    font-family: Arial, Helvetica, sans-serif;
 }
 
 .container {
@@ -22,7 +20,7 @@ body {
     flex-direction: column;
     max-width: 500px;
     width: 100%;
-    gap: 20px;
+    gap: 25px;
     border-radius: 15px;
 }
 
@@ -31,24 +29,38 @@ body {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    gap: 8px;
-    text-align: center;
+    gap: 10px;
 }
 
 .logo {
     border-radius: 50%;
-    max-width: 80px;
-    height: auto;
 }
 
 .title {
     color: white;
-    font-size: 28px;
+    font-size: 30px;
 }
 
-.subtitle {
-    color: #d196eb;
-    font-size: 14px;
+.register-option {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 25px;
+    width: 100%;
+}
+
+.option-register {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+     padding: 10px;
+    border: none;
+    border-bottom: 5px solid #7500a8;
+    border-radius: 15px;
+    background-color: #d196eb;
+    cursor: pointer;
 }
 
 .register {
@@ -63,16 +75,7 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    gap: 18px;
-    width: 100%;
-}
-
-.form-row {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: row;
-    gap: 10px;
+    gap: 25px;
     width: 100%;
 }
 
@@ -83,41 +86,24 @@ body {
     width: 100%;
 }
 
-.sentence-line-sm {
-    width: 100%;
-}
-
 .btn-line {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
     width: 100%;
-    margin-top: 10px;
 }
 
 .register-input {
-    padding: 12px;
+    padding: 10px;
     width: 100%;
     border: none;
     border-radius: 15px;
     border-bottom: 2px solid white;
     outline: none;
     background-color: white;
-    color: #333;
-    font-size: 14px;
-}
-
-.register-select {
     cursor: pointer;
-    appearance: none;
-    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%3a333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    background-size: 16px;
-    padding-right: 35px;
-    width: 100%;
 }
 
 .register-input:focus {
@@ -128,26 +114,16 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 12px;
-    width: 100%;
+    padding: 10px;
     border: none;
     border-bottom: 5px solid #7500a8;
     border-radius: 15px;
     background-color: #d196eb;
-    color: #1d0027;
-    font-weight: bold;
-    font-size: 16px;
     cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-.register-btn:hover {
-    background-color: #be7ada;
 }
 
 .register-p {
     color: white;
-    font-size: 14px;
 }
 
 .register-link {
@@ -156,20 +132,11 @@ body {
     cursor: pointer;
 }
 
-.register-link:hover {
-    text-decoration: underline;
-}
-
 @media screen and (max-width: 600px) {
     .container {
         max-width: 90%;
     }
-    
-    .form-row {
-        flex-direction: column;
-    }
-    
-    .sentence-line-sm {
-        max-width: 100%;
+    .register-btn {
+        width: 100%;
     }
 }

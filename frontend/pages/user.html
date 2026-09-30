@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Header Exemplo</title>
+
+  <!-- Biblioteca Font Awesome para Ícones -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <link rel="stylesheet" href="/frontend/css/user.css">
+</head>
+<body>
+
+  <!-- Header (Visível apenas em telas maiores) -->
+  <header class="header">
+    <div class="header-left">
+      <button class="burger-btn" id="burgerBtn" aria-label="Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <a href="#" class="logo">MinhaLogo</a>
+    </div>
+
+    <div class="header-right">
+      <input type="text" class="search-input" placeholder="Pesquisar...">
+      <img src="https://via.placeholder.com/40" alt="Foto de perfil" class="profile-img">
+    </div>
+  </header>
+
+  <!-- Overlay para escurecer o fundo ao abrir a Sidebar -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- Sidebar (Menu Hambúrguer no Desktop) -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <h2>Menu</h2>
+      <button class="close-btn" id="closeBtn">&times;</button>
+    </div>
+    <nav class="sidebar-nav">
+      <button class="nav-item active" data-target="home">Home</button>
+      <button class="nav-item" data-target="consultas">Buscar Consultas</button>
+      <button class="nav-item" data-target="configuracoes">Configurações</button>
+      <button class="nav-item logout" data-target="sair">Sair</button>
+    </nav>
+  </aside>
+
+  <!-- Conteúdo Principal da Página -->
+  <main class="content-container">
+    <!-- Seção Home -->
+    <section id="home" class="page-content active">
+        <h1>Página Inicial</h1>
+        <p>Histórico e acompanhamento de consultas:</p>
+
+        <div class="cards-grid">
+            <!-- Card 1 -->
+            <article class="appointment-card" data-doctor="Dra. Ana Silva" data-specialty="Psicóloga" data-date="28/09/2026" data-price="R$ 180,00" data-img="https://via.placeholder.com/150" data-feedback="Paciente apresentou excelente evolução nas sessões de TCC. Recomenda-se manter a rotina diária de diário de pensamentos e exercícios de respiração diafragmática para controle de ansiedade. Próximo retorno em 15 dias.">
+              <img src="https://via.placeholder.com/150" alt="Dra. Ana Silva" class="card-img">
+              <div class="card-info">
+                  <h3>Dra. Ana Silva</h3>
+                  <span class="specialty">Psicóloga</span>
+                  <p class="card-date">🗓 28/09/2026</p>
+                  <p class="card-price">💰 R$ 180,00</p>
+                  <p class="card-preview">Paciente apresentou excelente evolução nas sessões de TCC. Recomenda-se manter a rotina...</p>
+                  <button class="view-btn">Ver detalhes</button>
+              </div>
+            </article>
+
+            <!-- Card 2 -->
+            <article class="appointment-card" data-doctor="Dr. Carlos Eduardo" data-specialty="Psiquiatra" data-date="15/09/2026" data-price="R$ 350,00" data-img="https://via.placeholder.com/150" data-feedback="Manutenção da medicação atual por mais 30 dias. Encaminhamento enviado para acompanhamento conjunto com neuropsicólogo para avaliação de foco e atenção. Exames laboratoriais solicitados.">
+              <img src="https://via.placeholder.com/150" alt="Dr. Carlos Eduardo" class="card-img">
+              <div class="card-info">
+                  <h3>Dr. Carlos Eduardo</h3>
+                  <span class="specialty">Psiquiatra</span>
+                  <p class="card-date">🗓 15/09/2026</p>
+                  <p class="card-price">💰 R$ 350,00</p>
+                  <p class="card-preview">Manutenção da medicação atual por mais 30 dias. Encaminhamento enviado para acompanhamento...</p>
+                  <button class="view-btn">Ver detalhes</button>
+              </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- Dialog / Modal de Detalhes -->
+    <dialog id="detailsModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" id="closeModalBtn">&times;</button>
+            <div class="modal-header">
+              <img id="modalImg" src="" alt="Foto do Profissional" class="modal-img">
+              <div>
+                  <h2 id="modalDoctor"></h2>
+                  <p id="modalSpecialty" class="specialty"></p>
+              </div>
+            </div>
+            <div class="modal-body">
+              <p><strong>Data da consulta:</strong> <span id="modalDate"></span></p>
+              <p><strong>Valor:</strong> <span id="modalPrice"></span></p>
+              <hr>
+              <h4>Feedback / Prescrição:</h4>
+              <p id="modalFeedback" class="feedback-text"></p>
+            </div>
+        </div>
+    </dialog>
+
+    <!-- Seção Buscar Consultas -->
+    <section id="consultas" class="page-content">
+        <h1>Buscar Consultas</h1>
+        <p>Encontre o profissional ideal para o seu acompanhamento:</p>
+
+        <div class="cards-grid">
+            <!-- Card 1 -->
+            <article class="doctor-card" 
+                    data-name="Dra. Camila Ribeiro" 
+                    data-profession="Psicóloga (CRP 06/123456)" 
+                    data-rating="4.9 ★ (48 avaliações)" 
+                    data-price="R$ 200,00 / hora" 
+                    data-img="https://via.placeholder.com/150" 
+                    data-bio="Trabalho com a Terapia Cognitivo-Comportamental focada em ansiedade e burnout. Meu objetivo é proporcionar um ambiente seguro e acolhedor para o seu desenvolvimento pessoal e autoconhecimento contínuo.">
+                <img src="https://via.placeholder.com/150" alt="Dra. Camila Ribeiro" class="card-img">
+                <div class="card-info">
+                    <h3>Dra. Camila Ribeiro</h3>
+                    <span class="specialty">Psicóloga (CRP 06/123456)</span>
+                    <p class="card-rating">⭐ 4.9 (48 avaliações)</p>
+                    <p class="card-price">💰 R$ 200,00 / hora</p>
+                    <p class="card-preview">Trabalho com a Terapia Cognitivo-Comportamental focada em ansiedade e burnout. Meu objetivo...</p>
+                    <button class="view-doctor-btn">Ver perfil completo</button>
+                </div>
+            </article>
+
+            <!-- Card 2 -->
+            <article class="doctor-card" 
+                    data-name="Dr. Lucas Martins" 
+                    data-profession="Psiquiatra (CRM 123456/SP - RQE 789)" 
+                    data-rating="4.8 ★ (32 avaliações)" 
+                    data-price="R$ 400,00 / hora" 
+                    data-img="https://via.placeholder.com/150" 
+                    data-bio="Atendimento psiquiátrico humanizado e focado em diagnóstico preciso e tratamento integrado. Acredito na combinação da escuta clínica atenta com intervenções farmacológicas adequadas quando necessário.">
+                <img src="https://via.placeholder.com/150" alt="Dr. Lucas Martins" class="card-img">
+                <div class="card-info">
+                    <h3>Dr. Lucas Martins</h3>
+                    <span class="specialty">Psiquiatra (CRM 123456/SP - RQE 789)</span>
+                    <p class="card-rating">⭐ 4.8 (32 avaliações)</p>
+                    <p class="card-price">💰 R$ 400,00 / hora</p>
+                    <p class="card-preview">Atendimento psiquiátrico humanizado e focado em diagnóstico preciso e tratamento integrado...</p>
+                    <button class="view-doctor-btn">Ver perfil completo</button>
+                </div>
+            </article>
+
+            <!-- Card 3 -->
+            <article class="doctor-card" 
+                    data-name="Dr. Fernando Souza" 
+                    data-profession="Neuropsicólogo (CRP 06/654321)" 
+                    data-rating="5.0 ★ (19 avaliações)" 
+                    data-price="R$ 300,00 / hora" 
+                    data-img="https://via.placeholder.com/150" 
+                    data-bio="Especialista em avaliação neuropsicológica e reabilitação cognitiva para adultos e idosos. Foco na investigação de memória, atenção e funções executivas com laudos detalhados.">
+                <img src="https://via.placeholder.com/150" alt="Dr. Fernando Souza" class="card-img">
+                <div class="card-info">
+                    <h3>Dr. Fernando Souza</h3>
+                    <span class="specialty">Neuropsicólogo (CRP 06/654321)</span>
+                    <p class="card-rating">⭐ 5.0 (19 avaliações)</p>
+                    <p class="card-price">💰 R$ 300,00 / hora</p>
+                    <p class="card-preview">Especialista em avaliação neuropsicológica e reabilitação cognitiva para adultos e idosos...</p>
+                    <button class="view-doctor-btn">Ver perfil completo</button>
+                </div>
+            </article>
+
+            <!-- Card 4 -->
+            <article class="doctor-card" 
+                    data-name="Mariana Santos" 
+                    data-profession="Psicanalista (Filiada à Associação de Psicanálise)" 
+                    data-rating="4.7 ★ (25 avaliações)" 
+                    data-price="R$ 180,00 / hora" 
+                    data-img="https://via.placeholder.com/150" 
+                    data-bio="Sessões de psicanálise voltadas para a livre associação, exploração do inconsciente e compreensão de conteúdos reprimidos, promovendo autoconhecimento profundo e alívio de angústias.">
+                <img src="https://via.placeholder.com/150" alt="Mariana Santos" class="card-img">
+                <div class="card-info">
+                    <h3>Mariana Santos</h3>
+                    <span class="specialty">Psicanalista (Filiada à Associação de Psicanálise)</span>
+                    <p class="card-rating">⭐ 4.7 (25 avaliações)</p>
+                    <p class="card-price">💰 R$ 180,00 / hora</p>
+                    <p class="card-preview">Sessões de psicanálise voltadas para a livre associação, exploração do inconsciente...</p>
+                    <button class="view-doctor-btn">Ver perfil completo</button>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- Modal de Detalhes do Profissional -->
+    <dialog id="doctorModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" id="closeDoctorModalBtn">&times;</button>
+            <div class="modal-header">
+                <img id="doctorModalImg" src="" alt="Foto do Profissional" class="modal-img">
+                <div>
+                    <h2 id="doctorModalName"></h2>
+                    <p id="doctorModalProfession" class="specialty"></p>
+                    <p id="doctorModalRating" class="card-rating"></p>
+                </div>
+            </div>
+            <div class="modal-body">
+                <p><strong>Valor por hora:</strong> <span id="doctorModalPrice"></span></p>
+                <hr>
+                <h4>Modo de Trabalho / Sobre:</h4>
+                <p id="doctorModalBio" class="feedback-text"></p>
+                
+                <button class="schedule-btn" id="scheduleBtn">Agendar Consulta</button>
+            </div>
+        </div>
+    </dialog>
+
+    <!-- Seção Configurações -->
+    <section id="configuracoes" class="page-content">
+      <h1>Configurações</h1>
+      <p>Gerencie suas preferências e dados de conta.</p>
+
+      <form id="settingsForm" class="settings-form">
+        <!-- Informações Pessoais -->
+        <div class="settings-group">
+          <h3>Informações Pessoais</h3>
+          <div class="form-group">
+            <label for="userName">Nome Completo</label>
+            <input type="text" id="userName" name="userName" value="João da Silva">
+          </div>
+          <div class="form-group">
+            <label for="userEmail">E-mail</label>
+            <input type="email" id="userEmail" name="userEmail" value="joao.silva@email.com">
+          </div>
+          <div class="form-group">
+            <label for="userPhone">Telefone</label>
+            <input type="tel" id="userPhone" name="userPhone" value="(11) 98765-4321">
+          </div>
+        </div>
+
+        <!-- Preferências do Aplicativo -->
+        <div class="settings-group">
+          <h3>Preferências do Aplicativo</h3>
+          <div class="form-group-toggle">
+            <label for="notifEmail">Notificações por E-mail</label>
+            <input type="checkbox" id="notifEmail" class="toggle-checkbox" checked>
+          </div>
+          <div class="form-group-toggle">
+            <label for="notifSms">Notificações por SMS/WhatsApp</label>
+            <input type="checkbox" id="notifSms" class="toggle-checkbox">
+          </div>
+          <div class="form-group">
+            <label for="appTheme">Tema da Interface</label>
+            <select id="appTheme" class="settings-select">
+              <option value="light" selected>Claro (Padrão)</option>
+              <option value="dark">Escuro</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Ações do Formulário -->
+        <button type="submit" class="save-settings-btn">Salvar Alterações</button>
+
+        <!-- Botão Exclusivo para Mobile: Sair da Conta -->
+        <button type="button" id="mobileLogoutBtn" class="mobile-logout-btn">
+          <i class="fa-solid fa-right-from-bracket"></i> Sair da Conta
+        </button>
+
+        <!-- Zona de Perigo -->
+        <div class="danger-zone">
+          <h3>Zona de Perigo</h3>
+          <p>Esta ação é irreversível. Todos os seus dados serão excluídos permanentemente.</p>
+          <button type="button" id="deleteAccountBtn" class="delete-account-btn">Excluir Minha Conta</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Modal de Confirmação de Alterações / Exclusão -->
+    <dialog id="confirmModal" class="modal">
+      <div class="modal-content">
+        <button class="modal-close" id="closeConfirmModalBtn">&times;</button>
+        <h3 id="confirmModalTitle">Confirmar Alterações</h3>
+        <p id="confirmModalMessage" style="margin: 16px 0;">Tem certeza de que deseja salvar as alterações realizadas?</p>
+        <div class="confirm-modal-actions">
+          <button id="cancelConfirmBtn" class="btn-secondary">Cancelar</button>
+          <button id="actionConfirmBtn" class="btn-primary">Confirmar</button>
+        </div>
+      </div>
+    </dialog>
+
+    <section id="sair" class="page-content">
+      <h1>Sessão Encerrada</h1>
+      <p>Você saiu do sistema.</p>
+    </section>
+  </main>
+
+  <!-- Bottom Navigation / Footer para Telas Pequenas -->
+  <footer class="bottom-nav">
+    <button class="nav-item active" data-target="home" aria-label="Home">
+      <i class="fa-solid fa-house"></i>
+    </button>
+    <button class="nav-item" data-target="consultas" aria-label="Buscar Consultas">
+      <i class="fa-solid fa-magnifying-glass"></i>
+    </button>
+    <button class="nav-item" data-target="configuracoes" aria-label="Configurações">
+      <i class="fa-solid fa-gear"></i>
+    </button>
+  </footer>
+
+  <script src="/frontend/js/user.js"></script>
+</body>
+</html>

@@ -1,0 +1,800 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #f5dfff;
+  font-family: Arial, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Header */
+.header {
+  background-color: #7500a8;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px;
+  color: #ffffff;
+  position: relative;
+  z-index: 10;
+}
+
+.header-left,
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Botão Menu Burger */
+.burger-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 4px;
+}
+
+.burger-btn span {
+  display: block;
+  width: 24px;
+  height: 3px;
+  background-color: #ffffff;
+  border-radius: 2px;
+}
+
+/* Logo */
+.logo {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+/* Foto de Perfil */
+.profile-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Barra de Pesquisa */
+.search-input {
+  background-color: #f5dfff;
+  border: 1px solid transparent;
+  border-radius: 20px;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  color: #333333;
+  outline: none;
+}
+
+.search-input::placeholder {
+  color: #777777;
+}
+
+.search-input:focus {
+  border-color: #7500a8;
+}
+
+/* --- Sidebar --- */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -280px;
+  width: 280px;
+  height: 100vh;
+  background-color: #ffffff;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.15);
+  transition: left 0.3s ease;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar.open {
+  left: 0;
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  background-color: #7500a8;
+  color: #ffffff;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 1.8rem;
+  cursor: pointer;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  padding: 16px 0;
+}
+
+.nav-item {
+  background: none;
+  border: none;
+  padding: 14px 24px;
+  text-align: left;
+  font-size: 1rem;
+  color: #333333;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.nav-item:hover,
+.nav-item.active {
+  background-color: #f5dfff;
+  color: #7500a8;
+  font-weight: bold;
+}
+
+.nav-item.logout {
+  margin-top: auto;
+  color: #d9534f;
+}
+
+.nav-item.logout:hover {
+  background-color: #fbeae8;
+  color: #c9302c;
+}
+
+/* Fundo Escuro (Overlay) */
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  z-index: 90;
+}
+
+.sidebar-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Footer / Navegação Inferior (Escondido por padrão no Desktop) */
+.bottom-nav {
+  display: none;
+}
+
+/* --- Área de Conteúdo --- */
+.content-container {
+  padding: 32px 24px;
+}
+
+.page-content {
+  display: none;
+}
+
+.page-content.active {
+  display: block;
+}
+
+/* --- Cards da Página Inicial --- */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+  margin-top: 24px;
+}
+
+.appointment-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.appointment-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.card-img {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 12px;
+}
+
+.card-info h3 {
+  color: #7500a8;
+  font-size: 1.1rem;
+}
+
+.specialty {
+  display: inline-block;
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: 8px;
+  font-style: italic;
+}
+
+.card-date, .card-price {
+  font-size: 0.9rem;
+  color: #444;
+  margin-bottom: 4px;
+}
+
+.card-preview {
+  font-size: 0.85rem;
+  color: #666;
+  margin: 10px 0 14px 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.view-btn {
+  background-color: #7500a8;
+  color: #ffffff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+  width: 100%;
+}
+
+.view-btn:hover {
+  background-color: #58007e;
+}
+
+/* Modal (<dialog>) */
+.modal {
+  border: none;
+  border-radius: 12px;
+  padding: 0;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  margin: auto;
+}
+
+.modal::backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  padding: 24px;
+  position: relative;
+}
+
+.modal-close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  cursor: pointer;
+  color: #666;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.modal-img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.modal-body hr {
+  margin: 16px 0;
+  border: none;
+  border-top: 1px solid #eee;
+}
+
+.feedback-text {
+  margin-top: 8px;
+  line-height: 1.5;
+  color: #333;
+  background-color: #f9f9f9;
+  padding: 12px;
+  border-radius: 8px;
+  border-left: 4px solid #7500a8;
+}
+
+/* Responsividade Mobile (Layout Celular) */
+@media (max-width: 600px) {
+  /* Oculta o Header superior e a Sidebar no mobile */
+  .header,
+  .sidebar,
+  .sidebar-overlay {
+    display: none !important;
+  }
+
+  /* Exibe o Footer com ícones fixos no fundo */
+  .bottom-nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background-color: #7500a8;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.15);
+    z-index: 100;
+  }
+
+  .bottom-nav .nav-item {
+    background: none;
+    border: none;
+    color: #ffffff;
+    opacity: 0.6;
+    font-size: 1.3rem;
+    padding: 12px;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
+
+  .bottom-nav .nav-item.active {
+    opacity: 1;
+    background-color: transparent;
+    transform: scale(1.15);
+  }
+
+  /* Garante espaço inferior no conteúdo para não ficar oculto atrás do footer */
+  .content-container {
+    padding-bottom: 80px;
+  }
+
+  .cards-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .appointment-card {
+    flex-direction: row;
+    text-align: left;
+    align-items: center;
+    padding: 12px;
+  }
+
+  .card-img {
+    width: 65px;
+    height: 65px;
+    margin-bottom: 0;
+    margin-right: 12px;
+  }
+
+  .card-info {
+    flex: 1;
+  }
+
+  .view-btn {
+    width: auto;
+    margin-top: 8px;
+    padding: 6px 12px;
+    font-size: 0.8rem;
+  }
+}
+
+/* Cards de Profissionais */
+.doctor-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+.doctor-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.card-rating {
+  font-size: 0.85rem;
+  color: #ff9800;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.view-doctor-btn {
+  background-color: #7500a8;
+  color: #ffffff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+  width: 100%;
+  margin-top: 8px;
+}
+
+.view-doctor-btn:hover {
+  background-color: #58007e;
+}
+
+/* Botão de Agendamento dentro do Modal */
+.schedule-btn {
+  background-color: #28a745;
+  color: #ffffff;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 16px;
+  transition: background-color 0.2s;
+}
+
+.schedule-btn:hover {
+  background-color: #218838;
+}
+
+@media (max-width: 600px) {
+  .doctor-card {
+    flex-direction: row;
+    text-align: left;
+    align-items: center;
+    padding: 12px;
+  }
+}
+
+/* --- Estilos da Tela de Pagamento --- */
+.checkout-container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.checkout-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.back-btn {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.summary-box {
+  background-color: #f5dfff;
+  border-left: 4px solid #7500a8;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin: 16px 0 24px 0;
+}
+
+.payment-methods {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 16px 0;
+}
+
+.method-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 0.2s, background-color 0.2s;
+}
+
+.method-option:hover {
+  border-color: #7500a8;
+  background-color: #fcf6ff;
+}
+
+.payment-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 0.9rem;
+  color: #444;
+  font-weight: bold;
+}
+
+.form-group input {
+  padding: 10px 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+}
+
+.form-group input:focus {
+  border-color: #7500a8;
+}
+
+.form-row {
+  display: flex;
+  gap: 16px;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+.pay-btn {
+  background-color: #28a745;
+  color: #ffffff;
+  border: none;
+  padding: 14px;
+  border-radius: 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.pay-btn:hover {
+  background-color: #218838;
+}
+
+.pix-area {
+  text-align: center;
+  margin-top: 16px;
+}
+
+.pix-qr {
+  margin: 16px 0;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.pix-code-box {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.pix-code-box input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #f9f9f9;
+}
+
+.pix-code-box button {
+  background-color: #7500a8;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* --- Estilos da Tela de Configurações --- */
+.settings-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-top: 20px;
+  max-width: 600px;
+}
+
+.settings-group {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.settings-group h3 {
+  color: #7500a8;
+  border-bottom: 2px solid #f5dfff;
+  padding-bottom: 8px;
+  font-size: 1.1rem;
+}
+
+.form-group-toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.form-group-toggle label {
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.toggle-checkbox {
+  width: 20px;
+  height: 20px;
+  accent-color: #7500a8;
+  cursor: pointer;
+}
+
+.settings-select {
+  padding: 10px 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+  background-color: #fff;
+}
+
+.settings-select:focus {
+  border-color: #7500a8;
+}
+
+.save-settings-btn {
+  background-color: #7500a8;
+  color: #ffffff;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.save-settings-btn:hover {
+  background-color: #58007e;
+}
+
+/* Zona de Perigo (Exclusão de Conta) */
+.danger-zone {
+  background-color: #fff0f0;
+  border: 1px solid #f5c6cb;
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.danger-zone h3 {
+  color: #d9534f;
+}
+
+.danger-zone p {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.delete-account-btn {
+  background-color: #d9534f;
+  color: #ffffff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  align-self: flex-start;
+}
+
+.delete-account-btn:hover {
+  background-color: #c9302c;
+}
+
+/* Botão de Sair no Mobile */
+.mobile-logout-btn {
+  display: none;
+}
+
+@media (max-width: 600px) {
+  .mobile-logout-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background-color: #fff;
+    color: #d9534f;
+    border: 2px solid #d9534f;
+    padding: 12px;
+    border-radius: 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+
+  .mobile-logout-btn:hover {
+    background-color: #fbeae8;
+  }
+}
+
+/* Botoes do Modal de Confirmação */
+.confirm-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.btn-secondary {
+  background-color: #ccc;
+  color: #333;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 16px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.btn-primary {
+  background-color: #7500a8;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 16px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.btn-danger {
+  background-color: #d9534f;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 16px;
+  cursor: pointer;
+  font-weight: bold;
+}

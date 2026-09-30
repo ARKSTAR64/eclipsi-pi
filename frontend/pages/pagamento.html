@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pagamento da Consulta</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/frontend/css/user.css">
+</head>
+<body>
+
+  <header class="header">
+    <div class="header-left">
+      <a href="javascript:history.back()" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Voltar</a>
+      <span class="logo">Pagamento</span>
+    </div>
+  </header>
+
+  <main class="content-container checkout-container">
+    <div class="checkout-card">
+      <h2>Finalizar Agendamento</h2>
+      
+      <div id="summaryBox" class="summary-box">
+        <h3>Resumo do Agendamento</h3>
+        <p><strong>Profissional:</strong> <span id="summaryDoctor">Profissional</span></p>
+        <p><strong>Especialidade:</strong> <span id="summaryProfession">-</span></p>
+        <p><strong>Valor:</strong> <span id="summaryPrice">R$ 0,00</span></p>
+      </div>
+
+      <h3>Selecione a Forma de Pagamento</h3>
+      <div class="payment-methods">
+        <label class="method-option">
+          <input type="radio" name="paymentMethod" value="credit" checked>
+          <span><i class="fa-solid fa-credit-card"></i> Cartão de Crédito</span>
+        </label>
+        <label class="method-option">
+          <input type="radio" name="paymentMethod" value="debit">
+          <span><i class="fa-solid fa-credit-card"></i> Cartão de Débito</span>
+        </label>
+        <label class="method-option">
+          <input type="radio" name="paymentMethod" value="pix">
+          <span><i class="fa-brands fa-pix"></i> PIX</span>
+        </label>
+      </div>
+
+      <!-- Formulário de Cartão (Crédito/Débito) -->
+      <form id="cardForm" class="payment-form">
+        <div class="form-group">
+          <label for="cardNumber">Número do Cartão</label>
+          <input type="text" id="cardNumber" placeholder="0000 0000 0000 0000" required>
+        </div>
+        <div class="form-group">
+          <label for="cardHolder">Nome Impresso no Cartão</label>
+          <input type="text" id="cardHolder" placeholder="Nome como está no cartão" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="cardExpiry">Validade</label>
+            <input type="text" id="cardExpiry" placeholder="MM/AA" required>
+          </div>
+          <div class="form-group">
+            <label for="cardCvc">CVV</label>
+            <input type="text" id="cardCvc" placeholder="123" maxlength="4" required>
+          </div>
+        </div>
+        <button type="submit" class="pay-btn">Confirmar Pagamento</button>
+      </form>
+
+      <!-- Área do PIX (Oculta por padrão) -->
+      <div id="pixArea" class="pix-area" style="display: none;">
+        <p>Escaneie o QR Code abaixo com o aplicativo do seu banco:</p>
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=ExemploDeCodigoPix123456789" alt="QR Code PIX" class="pix-qr">
+        <p>Ou copie o código Copia e Cola:</p>
+        <div class="pix-code-box">
+          <input type="text" readonly value="00020126580014BR.GOV.BCB.PIX0136123e4567-e89b-12d3-a456-4266141740005204000053039865405100.005802BR5913MinhaEmpresa6008SAOPAULO62070503***6304E2CA" id="pixCodeInput">
+          <button type="button" id="copyPixBtn"><i class="fa-solid fa-copy"></i> Copiar</button>
+        </div>
+        <button type="button" id="confirmPixBtn" class="pay-btn" style="margin-top: 20px;">Já efetuei o pagamento</button>
+      </div>
+    </div>
+  </main>
+
+  <script src="/frontend/js/pagamento.js"></script>
+</body>
+</html>
