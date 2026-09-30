@@ -5,12 +5,12 @@
     {
       "src": "/images/logo-ruim.png",
       "type": "image/png",
-      "sizes": "283x280"
+      "sizes": "192x192"
     },
     {
       "src": "/images/logo-ruim.pngg",
       "type": "image/png",
-      "sizes": "283x280"
+      "sizes": "512x512"
     }
   ],
   "start_url": "/index.html",
