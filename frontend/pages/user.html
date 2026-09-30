@@ -3,10 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#6c5ce7">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <title>Header Exemplo</title>
 
   <!-- Biblioteca Font Awesome para Ícones -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" href="/icons/icon-192.png" type="image/png">
   
   <link rel="stylesheet" href="../css/user.css">
 </head>
@@ -390,6 +395,16 @@
         </button>
     </footer>
 
+  <script src="/js/user.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch((error) => {
+          console.error('Erro ao registrar o Service Worker:', error);
+        });
+      });
+    }
+  </script>
   <script src="../js/user.js"></script>
 </body>
 </html>

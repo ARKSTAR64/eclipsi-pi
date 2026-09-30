@@ -328,6 +328,124 @@ if (scheduleBtn) {
   });
 }
 
+const offlineAppointmentsKey = 'eclipsiOfflineAppointments';
+let offlineForm = null;
+
+function readOfflineAppointments() {
+  try {
+    const stored = JSON.parse(localStorage.getItem(offlineAppointmentsKey) || '[]');
+    return Array.isArray(stored) ? stored : [];
+  } catch (error) {
+    return [];
+  }
+}
+
+function saveOfflineAppointments(appointments) {
+  localStorage.setItem(offlineAppointmentsKey, JSON.stringify(appointments));
+}
+
+function renderOfflineAppointments() {
+  const homeSection = document.getElementById('home');
+
+  if (!homeSection) {
+    return;
+  }
+
+  let panel = document.getElementById('offlineAppointmentsPanel');
+  if (!panel) {
+    const cardsGrid = homeSection.querySelector('.cards-grid');
+    panel = document.createElement('div');
+    panel.id = 'offlineAppointmentsPanel';
+    panel.style.margin = '20px 0';
+    panel.style.padding = '16px';
+    panel.style.borderRadius = '12px';
+    panel.style.border = '1px solid rgba(108, 92, 231, 0.2)';
+    panel.style.background = '#f8f8ff';
+    panel.style.boxShadow = '0 8px 24px rgba(81, 70, 153, 0.08)';
+    panel.innerHTML = `
+      <h3 style="margin: 0 0 12px;">Agenda offline</h3>
+      <form id="offlineAppointmentsForm" style="display: grid; gap: 10px; margin-bottom: 12px;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px;">
+          <input id="offlineDoctor" type="text" placeholder="Nome do profissional" style="padding: 10px 12px; border: 1px solid #dfe3f0; border-radius: 8px;" required>
+          <input id="offlineSpecialty" type="text" placeholder="Especialidade" style="padding: 10px 12px; border: 1px solid #dfe3f0; border-radius: 8px;" required>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px;">
+          <input id="offlineDate" type="date" style="padding: 10px 12px; border: 1px solid #dfe3f0; border-radius: 8px;" required>
+          <input id="offlinePrice" type="text" placeholder="Valor" style="padding: 10px 12px; border: 1px solid #dfe3f0; border-radius: 8px;" required>
+        </div>
+        <button type="submit" style="padding: 10px 16px; border: none; border-radius: 8px; background: #6c5ce7; color: white; font-weight: 600; cursor: pointer;">Salvar agendamento</button>
+      </form>
+      <div id="offlineAppointmentsList"></div>
+    `;
+
+    if (cardsGrid) {
+      homeSection.insertBefore(panel, cardsGrid);
+    } else {
+      homeSection.appendChild(panel);
+    }
+  }
+
+  const list = document.getElementById('offlineAppointmentsList');
+  offlineForm = document.getElementById('offlineAppointmentsForm');
+  const appointments = readOfflineAppointments();
+
+  if (offlineForm && !offlineForm.dataset.bound) {
+    offlineForm.dataset.bound = 'true';
+    offlineForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      const doctorInput = document.getElementById('offlineDoctor');
+      const specialtyInput = document.getElementById('offlineSpecialty');
+      const dateInput = document.getElementById('offlineDate');
+      const priceInput = document.getElementById('offlinePrice');
+
+      if (!doctorInput || !specialtyInput || !dateInput || !priceInput) {
+        return;
+      }
+
+      const appointment = {
+        id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
+        doctor: doctorInput.value.trim() || 'Consulta offline',
+        specialty: specialtyInput.value.trim(),
+        date: new Date(dateInput.value).toLocaleDateString('pt-BR'),
+        price: priceInput.value.trim(),
+        feedback: 'Agendamento gerado localmente em modo offline.'
+      };
+
+      const currentAppointments = readOfflineAppointments();
+      currentAppointments.unshift(appointment);
+      saveOfflineAppointments(currentAppointments);
+      offlineForm.reset();
+      renderOfflineAppointments();
+    });
+  }
+
+  if (!appointments.length) {
+    list.innerHTML = '<p style="margin: 0; color: #555;">Nenhum agendamento offline salvo ainda.</p>';
+    return;
+  }
+
+  list.innerHTML = appointments.map((appointment) => `
+    <div style="display: flex; justify-content: space-between; gap: 12px; align-items: center; padding: 10px 12px; margin-bottom: 8px; border-radius: 10px; background: white; border: 1px solid rgba(108, 92, 231, 0.12);">
+      <div>
+        <strong>${appointment.doctor}</strong><br>
+        <small>${appointment.specialty} · ${appointment.date} · ${appointment.price}</small>
+      </div>
+      <button type="button" class="offline-delete" data-id="${appointment.id}" style="border: none; background: #ff6b6b; color: white; border-radius: 8px; padding: 8px 10px; cursor: pointer;">Excluir</button>
+    </div>
+  `).join('');
+
+  list.querySelectorAll('.offline-delete').forEach((button) => {
+    button.addEventListener('click', () => {
+      const targetId = button.getAttribute('data-id');
+      const filteredAppointments = readOfflineAppointments().filter((item) => item.id !== targetId);
+      saveOfflineAppointments(filteredAppointments);
+      renderOfflineAppointments();
+    });
+  });
+}
+
+renderOfflineAppointments();
 // --- Lógica do Modal de Avaliação de Consultas Realizadas ---
 const ratingModal = document.getElementById('ratingModal');
 const closeRatingModalBtn = document.getElementById('closeRatingModalBtn');
