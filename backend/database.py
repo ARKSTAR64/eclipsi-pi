@@ -1,60 +1,24 @@
-import sqlite3
+import psycopg2
 import os
+from dotenv import load_dotenv
 
-# Caminho absoluto para a raiz do projeto e para a pasta 'database'
+# Caminho pro env lá pra ele entrar no banco 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DB_FOLDER = os.path.join(BASE_DIR, 'database')
+ENV_PATH = os.path.join(BASE_DIR, '.env')
 
-# Cria a pasta 'database' automaticamente na raiz se ela não existir
-os.makedirs(DB_FOLDER, exist_ok=True)
-
-# Caminho completo do arquivo SQLite dentro da pasta criada
-DB_PATH = os.path.join(DB_FOLDER, 'database.db')
+# Abrir conexão com o supabase lá que usa postgresql
+load_dotenv(ENV_PATH)
 
 def get_db():
-    conn = sqlite3.connect(DB_PATH)
-    conn.row_factory = sqlite3.Row
-    return conn
+    return psycopg2.connect(
+        host=os.getenv("DB_HOST"),
+        port=os.getenv("DB_PORT"),
+        dbname=os.getenv("DB_NAME"),
+        user=os.getenv("DB_USER"),
+        password=os.getenv("DB_PASSWORD"),
+    )
 
 def init_db():
-    conn = get_db()
-    cursor = conn.cursor()
+    # já tem as tabelas ai vou só conectar aqui vo criar nada no sqlite
     
-    # Tabela unificada de usuários
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS users (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            nome TEXT NOT NULL,
-            email TEXT UNIQUE NOT NULL,
-            senha TEXT NOT NULL,
-            telefone TEXT,
-            role TEXT NOT NULL, -- 'paciente', 'medico', 'admin'
-            
-            -- Campos do Paciente
-            idade INTEGER,
-            genero TEXT,
-            
-            -- Campos do Médico/Profissional
-            especialidade TEXT,
-            registro TEXT,
-            uf TEXT,
-            descricao TEXT,
-            
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        )
-    ''')
-    
-    # Usuário ADM temporário para testes
-    cursor.execute("SELECT id FROM users WHERE email = ?", ("adm@adm",))
-    if not cursor.fetchone():
-        cursor.execute('''
-            INSERT INTO users (nome, email, senha, role)
-            VALUES (?, ?, ?, ?)
-        ''', ("Administrador", "adm@adm", "123", "admin"))
-        print("👤 Usuário ADM criado: adm@adm | senha: 123")
-        
-    conn.commit()
-    conn.close()
-
-if __name__ == "__main__":
-    init_db()
+    pass

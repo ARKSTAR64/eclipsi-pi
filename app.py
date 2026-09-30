@@ -1,6 +1,6 @@
 import os
 import sys
-import sqlite3
+import psycopg2
 from flask import Flask, send_from_directory, request, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -54,7 +54,7 @@ def login():
     conn = get_db()
     cursor = conn.cursor()
     
-    cursor.execute("SELECT id, nome, email, senha, role FROM users WHERE email = ?", (email,))
+    cursor.execute("SELECT id, nome, email, senha, role FROM users WHERE email = %s", (email,))
     user = cursor.fetchone()
     conn.close()
 
@@ -108,11 +108,11 @@ def register_user():
     try:
         cursor.execute('''
             INSERT INTO users (nome, email, idade, telefone, genero, senha, role)
-            VALUES (?, ?, ?, ?, ?, ?, 'paciente')
+            VALUES (%s, %s, %s, %s, %s, %s, 'paciente')
         ''', (nome, email, idade, telefone, genero, senha_hash))
         conn.commit()
         return jsonify({"success": True, "message": "Paciente cadastrado com sucesso!"}), 201
-    except sqlite3.IntegrityError:
+    except psycopg2.IntegrityError:
         return jsonify({"success": False, "message": "Este e-mail já está cadastrado."}), 400
     except Exception as e:
         return jsonify({"success": False, "message": f"Erro interno: {str(e)}"}), 500
@@ -142,11 +142,11 @@ def register_doctor():
     try:
         cursor.execute('''
             INSERT INTO users (nome, email, telefone, especialidade, registro, uf, senha, descricao, role)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'medico')
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, 'medico')
         ''', (nome, email, telefone, especialidade, registro, uf, senha_hash, descricao))
         conn.commit()
         return jsonify({"success": True, "message": "Profissional cadastrado com sucesso!"}), 201
-    except sqlite3.IntegrityError:
+    except psycopg2.IntegrityError:
         return jsonify({"success": False, "message": "E-mail ou registro profissional já cadastrado."}), 400
     except Exception as e:
         return jsonify({"success": False, "message": f"Erro interno: {str(e)}"}), 500
