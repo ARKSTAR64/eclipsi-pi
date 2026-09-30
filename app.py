@@ -168,7 +168,7 @@ def get_admin_stats():
     cursor.execute("SELECT COUNT(*) FROM users WHERE role = 'paciente'")
     total_pacientes = cursor.fetchone()[0]
 
-    cursor.execute("SELECT COUNT(*) FROM users WHERE role = 'medico'")
+    cursor.execute("SELECT COUNT(*) FROM users WHERE role = 'Médico'")
     total_medicos = cursor.fetchone()[0]
 
     # Contagem por especialidade
