@@ -3,8 +3,12 @@ const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
   '/pages/login.html',
+  '/pages/cadastro-medico.html',
+  '/pages/cadastro-user.html',
+  '/css/cadastro.css',
   '/css/style.css',
   '/js/script.js',
+  '/js/api.js',
   '/images/logo-ruim.png'
 ];
 

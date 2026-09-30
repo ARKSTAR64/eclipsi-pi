@@ -153,5 +153,150 @@ def register_doctor():
     finally:
         conn.close()
 
+# ==========================================
+# ROTAS DA API DO ADMINISTRADOR
+# ==========================================
+
+# app.py
+@app.route("/api/admin/stats", methods=["GET"])
+def get_admin_stats():
+    """Retorna métricas e contagens calculadas diretamente do banco de dados."""
+    conn = get_db()
+    cursor = conn.cursor()
+
+    # Total de pacientes e médicos
+    cursor.execute("SELECT COUNT(*) FROM users WHERE role = 'paciente'")
+    total_pacientes = cursor.fetchone()[0]
+
+    cursor.execute("SELECT COUNT(*) FROM users WHERE role = 'medico'")
+    total_medicos = cursor.fetchone()[0]
+
+    # Contagem por especialidade
+    cursor.execute("""
+        SELECT LOWER(especialidade) as esp, COUNT(*) 
+        FROM users 
+        WHERE role = 'medico' AND especialidade IS NOT NULL AND especialidade != '' 
+        GROUP BY LOWER(especialidade)
+    """)
+    especialidades_raw = cursor.fetchall()
+    conn.close()
+
+    especialidades = {esp: qtd for esp, qtd in especialidades_raw}
+
+    return jsonify({
+        "success": True,
+        "stats": {
+            "total_pacientes": total_pacientes,
+            "total_medicos": total_medicos,
+            "especialidades": especialidades
+        }
+    }), 200
+
+
+@app.route("/api/admin/users/<int:user_id>", methods=["PUT"])
+def update_user_by_admin(user_id):
+    """Atualiza as informações de um usuário pelo Administrador."""
+    data = request.get_json() or {}
+    
+    nome = data.get("nome")
+    email = data.get("email")
+    role = data.get("role")
+    telefone = data.get("telefone")
+    registro = data.get("registro")
+
+    if not nome or not email or not role:
+        return jsonify({"success": False, "message": "Preencha os campos obrigatórios!"}), 400
+
+    conn = get_db()
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute("""
+            UPDATE users 
+            SET nome = ?, email = ?, role = ?, telefone = ?, registro = ?
+            WHERE id = ?
+        """, (nome, email, role, telefone, registro, user_id))
+        conn.commit()
+        return jsonify({"success": True, "message": "Usuário atualizado com sucesso!"}), 200
+    except sqlite3.IntegrityError:
+        return jsonify({"success": False, "message": "E-mail ou registro já cadastrado."}), 400
+    except Exception as e:
+        return jsonify({"success": False, "message": f"Erro interno: {str(e)}"}), 500
+    finally:
+        conn.close()
+
+
+@app.route("/api/admin/users/<int:user_id>", methods=["DELETE"])
+def delete_user_by_admin(user_id):
+    """Remove permanentemente um usuário do banco de dados."""
+    conn = get_db()
+    cursor = conn.cursor()
+    try:
+        cursor.execute("DELETE FROM users WHERE id = ?", (user_id,))
+        conn.commit()
+        return jsonify({"success": True, "message": "Usuário excluído com sucesso!"}), 200
+    except Exception as e:
+        return jsonify({"success": False, "message": f"Erro ao excluir: {str(e)}"}), 500
+    finally:
+        conn.close()
+
+@app.route("/api/admin/profile", methods=["PUT"])
+def update_admin_profile():
+    """Atualiza as credenciais (nome, email, senha) do perfil do Administrador."""
+    data = request.get_json() or {}
+    admin_id = data.get("id")
+    nome = data.get("nome")
+    email = data.get("email")
+    senha = data.get("senha")
+
+    if not admin_id or not nome or not email:
+        return jsonify({"success": False, "message": "Dados do perfil incompletos!"}), 400
+
+    conn = get_db()
+    cursor = conn.cursor()
+
+    try:
+        if senha:
+            senha_hash = generate_password_hash(senha)
+            cursor.execute("UPDATE users SET nome = ?, email = ?, senha = ? WHERE id = ?", (nome, email, senha_hash, admin_id))
+        else:
+            cursor.execute("UPDATE users SET nome = ?, email = ? WHERE id = ?", (nome, email, admin_id))
+        
+        conn.commit()
+        return jsonify({"success": True, "message": "Perfil de administrador atualizado!"}), 200
+    except sqlite3.IntegrityError:
+        return jsonify({"success": False, "message": "E-mail já está em uso."}), 400
+    except Exception as e:
+        return jsonify({"success": False, "message": f"Erro interno: {str(e)}"}), 500
+    finally:
+        conn.close()
+
+@app.route("/api/admin/users", methods=["GET"])
+def get_all_users():
+    """Retorna a lista de todos os usuários cadastrados no banco de dados."""
+    conn = get_db()
+    cursor = conn.cursor()
+    
+    try:
+        cursor.execute("SELECT id, nome, email, role, telefone, registro FROM users")
+        rows = cursor.fetchall()
+        
+        users = []
+        for row in rows:
+            users.append({
+                "id": row[0],
+                "nome": row[1],
+                "email": row[2],
+                "role": row[3],
+                "telefone": row[4],
+                "registro": row[5]
+            })
+            
+        return jsonify({"success": True, "users": users}), 200
+    except Exception as e:
+        return jsonify({"success": False, "message": f"Erro interno: {str(e)}"}), 500
+    finally:
+        conn.close()
+
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
