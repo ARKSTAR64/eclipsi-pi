@@ -1,0 +1,20 @@
+{
+  "short_name": "EcliPsi",
+  "name": "EcliPsi",
+  "icons": [
+    {
+      "src": "/images/logo-ruim.png",
+      "type": "image/png",
+      "sizes": "283x280"
+    },
+    {
+      "src": "/images/logo-ruim.pngg",
+      "type": "image/png",
+      "sizes": "283x280"
+    }
+  ],
+  "start_url": "/index.html",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "display": "standalone"
+}
