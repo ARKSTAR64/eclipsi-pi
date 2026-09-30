@@ -897,3 +897,84 @@ body {
   align-items: center;
   gap: 6px;
 }
+
+/* Estilos para Separação das Consultas na Home */
+.home-section {
+  margin-top: 24px;
+}
+
+.section-title {
+  color: #7500a8;
+  font-size: 1.25rem;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.section-divider {
+  border: 0;
+  height: 1px;
+  background-color: #e0b0ff;
+  margin: 32px 0;
+}
+
+/* Badges e Botões de Ação nos Cards */
+.status-badge.upcoming-badge {
+  display: inline-block;
+  background-color: #e3f2fd;
+  color: #0d47a1;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.card-actions {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  margin-top: 8px;
+}
+
+.rate-btn {
+  background-color: #ff9800;
+  color: #ffffff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+  flex: 1;
+}
+
+.rate-btn:hover {
+  background-color: #e68a00;
+}
+
+/* Sistema de Avaliação por Estrelas (Star Rating) */
+.star-rating {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
+  gap: 8px;
+  font-size: 2rem;
+}
+
+.star-rating input {
+  display: none;
+}
+
+.star-rating label {
+  color: #ccc;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.star-rating label:hover,
+.star-rating label:hover ~ label,
+.star-rating input:checked ~ label {
+  color: #ffc107;
+}

@@ -327,3 +327,48 @@ if (scheduleBtn) {
     window.location.href = 'pagamento.html';
   });
 }
+
+// --- Lógica do Modal de Avaliação de Consultas Realizadas ---
+const ratingModal = document.getElementById('ratingModal');
+const closeRatingModalBtn = document.getElementById('closeRatingModalBtn');
+const ratingDoctorName = document.getElementById('ratingDoctorName');
+const ratingForm = document.getElementById('ratingForm');
+const rateButtons = document.querySelectorAll('.rate-btn');
+
+rateButtons.forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation(); // Evita abrir o modal de detalhes da consulta ao clicar em avaliar
+    const doctorName = btn.getAttribute('data-doctor-name');
+    ratingDoctorName.textContent = `Profissional: ${doctorName}`;
+    ratingForm.reset();
+    ratingModal.showModal();
+  });
+});
+
+if (closeRatingModalBtn) {
+  closeRatingModalBtn.addEventListener('click', () => {
+    ratingModal.close();
+  });
+}
+
+if (ratingModal) {
+  ratingModal.addEventListener('click', (e) => {
+    const rect = ratingModal.getBoundingClientRect();
+    const isInDialog = (
+      rect.top <= e.clientY &&
+      e.clientY <= rect.bottom &&
+      rect.left <= e.clientX &&
+      e.clientX <= rect.right
+    );
+    if (!isInDialog) ratingModal.close();
+  });
+}
+
+if (ratingForm) {
+  ratingForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const ratingValue = ratingForm.querySelector('input[name="rating"]:checked')?.value;
+    alert(`Obrigado! Sua avaliação de ${ratingValue} estrelas foi registrada com sucesso.`);
+    ratingModal.close();
+  });
+}

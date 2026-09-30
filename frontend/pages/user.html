@@ -48,58 +48,99 @@
 
   <!-- Conteúdo Principal da Página -->
   <main class="content-container">
+  
     <!-- Seção Home -->
     <section id="home" class="page-content active">
         <h1>Página Inicial</h1>
-        <p>Histórico e acompanhamento de consultas:</p>
+        <p>Acompanhe suas consultas agendadas e seu histórico de atendimentos:</p>
 
-        <div class="cards-grid">
-            <!-- Card 1 -->
-            <article class="appointment-card" data-doctor="Dra. Ana Silva" data-specialty="Psicóloga" data-date="28/09/2026" data-price="R$ 180,00" data-img="https://via.placeholder.com/150" data-feedback="Paciente apresentou excelente evolução nas sessões de TCC. Recomenda-se manter a rotina diária de diário de pensamentos e exercícios de respiração diafragmática para controle de ansiedade. Próximo retorno em 15 dias.">
-              <img src="https://via.placeholder.com/150" alt="Dra. Ana Silva" class="card-img">
-              <div class="card-info">
-                  <h3>Dra. Ana Silva</h3>
-                  <span class="specialty">Psicóloga</span>
-                  <p class="card-date">🗓 28/09/2026</p>
-                  <p class="card-price">💰 R$ 180,00</p>
-                  <p class="card-preview">Paciente apresentou excelente evolução nas sessões de TCC. Recomenda-se manter a rotina...</p>
-                  <button class="view-btn">Ver detalhes</button>
-              </div>
+        <!-- SEÇÃO: PRÓXIMAS CONSULTAS -->
+        <div class="home-section">
+            <h2 class="section-title"><i class="fa-regular fa-calendar-check"></i> Próximas Consultas</h2>
+            <div class="cards-grid">
+            <!-- Consulta Agendada 1 -->
+            <article class="appointment-card upcoming">
+                <img src="https://via.placeholder.com/150" alt="Dra. Mariana Costa" class="card-img">
+                <div class="card-info">
+                <h3>Dra. Mariana Costa</h3>
+                <span class="specialty">Psicóloga</span>
+                <p class="card-date">🗓 10/10/2026 às 14:00</p>
+                <p class="card-price">💰 R$ 200,00</p>
+                <span class="status-badge upcoming-badge">Agendada</span>
+                <button class="view-btn">Ver detalhes</button>
+                </div>
+            </article>
+            </div>
+        </div>
+
+        <hr class="section-divider">
+
+        <!-- SEÇÃO: CONSULTAS REALIZADAS -->
+        <div class="home-section">
+            <h2 class="section-title"><i class="fa-solid fa-clock-rotate-left"></i> Consultas Realizadas</h2>
+            <div class="cards-grid">
+            <!-- Consulta Realizada 1 -->
+            <article class="appointment-card completed" data-doctor="Dra. Ana Silva" data-specialty="Psicóloga" data-date="28/09/2026" data-price="R$ 180,00" data-img="https://via.placeholder.com/150" data-feedback="Paciente apresentou excelente evolução nas sessões de TCC. Recomenda-se manter a rotina diária de diário de pensamentos e exercícios de respiração diafragmática.">
+                <img src="https://via.placeholder.com/150" alt="Dra. Ana Silva" class="card-img">
+                <div class="card-info">
+                <h3>Dra. Ana Silva</h3>
+                <span class="specialty">Psicóloga</span>
+                <p class="card-date">🗓 28/09/2026</p>
+                <p class="card-price">💰 R$ 180,00</p>
+                <p class="card-preview">Paciente apresentou excelente evolução nas sessões de TCC...</p>
+                <div class="card-actions">
+                    <button class="view-btn">Ver detalhes</button>
+                    <button class="rate-btn" data-doctor-name="Dra. Ana Silva">
+                    <i class="fa-solid fa-star"></i> Avaliar
+                    </button>
+                </div>
+                </div>
             </article>
 
-            <!-- Card 2 -->
-            <article class="appointment-card" data-doctor="Dr. Carlos Eduardo" data-specialty="Psiquiatra" data-date="15/09/2026" data-price="R$ 350,00" data-img="https://via.placeholder.com/150" data-feedback="Manutenção da medicação atual por mais 30 dias. Encaminhamento enviado para acompanhamento conjunto com neuropsicólogo para avaliação de foco e atenção. Exames laboratoriais solicitados.">
-              <img src="https://via.placeholder.com/150" alt="Dr. Carlos Eduardo" class="card-img">
-              <div class="card-info">
-                  <h3>Dr. Carlos Eduardo</h3>
-                  <span class="specialty">Psiquiatra</span>
-                  <p class="card-date">🗓 15/09/2026</p>
-                  <p class="card-price">💰 R$ 350,00</p>
-                  <p class="card-preview">Manutenção da medicação atual por mais 30 dias. Encaminhamento enviado para acompanhamento...</p>
-                  <button class="view-btn">Ver detalhes</button>
-              </div>
+            <!-- Consulta Realizada 2 -->
+            <article class="appointment-card completed" data-doctor="Dr. Carlos Eduardo" data-specialty="Psiquiatra" data-date="15/09/2026" data-price="R$ 350,00" data-img="https://via.placeholder.com/150" data-feedback="Manutenção da medicação atual por mais 30 dias. Encaminhamento enviado para acompanhamento conjunto com neuropsicólogo.">
+                <img src="https://via.placeholder.com/150" alt="Dr. Carlos Eduardo" class="card-img">
+                <div class="card-info">
+                <h3>Dr. Carlos Eduardo</h3>
+                <span class="specialty">Psiquiatra</span>
+                <p class="card-date">🗓 15/09/2026</p>
+                <p class="card-price">💰 R$ 350,00</p>
+                <p class="card-preview">Manutenção da medicação atual por mais 30 dias...</p>
+                <div class="card-actions">
+                    <button class="view-btn">Ver detalhes</button>
+                    <button class="rate-btn" data-doctor-name="Dr. Carlos Eduardo">
+                    <i class="fa-solid fa-star"></i> Avaliar
+                    </button>
+                </div>
+                </div>
             </article>
+            </div>
         </div>
     </section>
 
-    <!-- Dialog / Modal de Detalhes -->
-    <dialog id="detailsModal" class="modal">
+    <!-- Modal de Avaliação do Médico -->
+    <dialog id="ratingModal" class="modal">
         <div class="modal-content">
-            <button class="modal-close" id="closeModalBtn">&times;</button>
-            <div class="modal-header">
-              <img id="modalImg" src="" alt="Foto do Profissional" class="modal-img">
-              <div>
-                  <h2 id="modalDoctor"></h2>
-                  <p id="modalSpecialty" class="specialty"></p>
-              </div>
-            </div>
-            <div class="modal-body">
-              <p><strong>Data da consulta:</strong> <span id="modalDate"></span></p>
-              <p><strong>Valor:</strong> <span id="modalPrice"></span></p>
-              <hr>
-              <h4>Feedback / Prescrição:</h4>
-              <p id="modalFeedback" class="feedback-text"></p>
-            </div>
+            <button class="modal-close" id="closeRatingModalBtn">&times;</button>
+            <h2>Avaliar Atendimento</h2>
+            <p id="ratingDoctorName" class="specialty" style="font-size: 1rem; margin-top: 4px;"></p>
+
+            <form id="ratingForm" style="margin-top: 16px;">
+                <div class="star-rating">
+                    <input type="radio" id="star5" name="rating" value="5" required/><label for="star5" title="5 estrelas">★</label>
+                    <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="4 estrelas">★</label>
+                    <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="3 estrelas">★</label>
+                    <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="2 estrelas">★</label>
+                    <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="1 estrela">★</label>
+                </div>
+
+                <div class="form-group" style="margin-top: 16px;">
+                    <label for="ratingComment">Deixe seu comentário (opcional):</label>
+                    <textarea id="ratingComment" rows="4" placeholder="Como foi sua experiência com este profissional?"></textarea>
+                </div>
+
+                <button type="submit" class="save-settings-btn" style="margin-top: 16px; width: 100%;">Enviar Avaliação</button>
+            </form>
         </div>
     </dialog>
 
