@@ -1,58 +1,63 @@
 import os
 
-# Lista de diretórios para criar
+# Lista de pastas a serem criadas
 folders = [
-    "backend/app/api/v1/endpoints",
-    "backend/app/core",
-    "backend/app/models",
-    "backend/app/schemas",
-    "backend/app/services",
-    "mobile/assets",
-    "mobile/src/components",
-    "mobile/src/constants",
-    "mobile/src/contexts",
-    "mobile/src/hooks",
-    "mobile/src/navigation",
-    "mobile/src/screens/auth",
-    "mobile/src/screens/patient",
-    "mobile/src/screens/doctor",
-    "mobile/src/screens/shared",
-    "mobile/src/services",
-    "mobile/src/types",
-    "mobile/src/utils",
+    "backend",
+    "frontend/css",
+    "frontend/js",
+    "frontend/pages",
 ]
 
-# Lista de arquivos base
+# Lista de arquivos a serem criados
 files = [
-    "backend/app/api/v1/endpoints/__init__.py",
-    "backend/app/api/v1/endpoints/auth.py",
-    "backend/app/api/v1/endpoints/patients.py",
-    "backend/app/api/v1/endpoints/psychologists.py",
-    "backend/app/api/v1/endpoints/quiz.py",
-    "backend/app/api/v1/endpoints/appointments.py",
-    "backend/app/api/v1/endpoints/reports.py",
-    "backend/app/api/v1/router.py",
-    "backend/app/core/config.py",
-    "backend/app/core/database.py",
-    "backend/app/core/security.py",
-    "backend/app/main.py",
+    # Arquivos do Backend (Flask + SQLite/Supabase)
+    "backend/app.py",
+    "backend/config.py",
+    "backend/database.py",
+    "backend/services.py",
     "backend/.env",
     "backend/requirements.txt",
-    "backend/Dockerfile",
-    "mobile/App.tsx",
-    "mobile/package.json",
+    
+    # Arquivo Raiz do Frontend
+    "frontend/index.html",
+    
+    # CSS Global e Específicos por Tela
+    "frontend/css/global.css",
+    "frontend/css/login.css",
+    "frontend/css/cadastro.css",
+    "frontend/css/quiz.css",
+    "frontend/css/psicologos.css",
+    "frontend/css/perfil.css",
+    "frontend/css/agendamentos.css",
+    "frontend/css/chat.css",
+    
+    # JavaScripts
+    "frontend/js/api.js",
+    "frontend/js/quiz.js",
+    "frontend/js/app.js",
+    
+    # Páginas HTML do Aplicativo
+    "frontend/pages/login.html",
+    "frontend/pages/cadastro.html",
+    "frontend/pages/quiz.html",
+    "frontend/pages/psicologos.html",
+    "frontend/pages/perfil.html",
+    "frontend/pages/agendamentos.html",
+    "frontend/pages/chat.html",
 ]
 
-print("Criando estrutura do projeto...")
-
-# Criar pastas
+print("📁 Criando diretórios...")
 for folder in folders:
     os.makedirs(folder, exist_ok=True)
+    print(f"  [+] Pasta: {folder}")
 
-# Criar arquivos vazios
+print("\n📄 Criando arquivos vazios...")
 for file_path in files:
     if not os.path.exists(file_path):
         with open(file_path, "w", encoding="utf-8") as f:
             pass
+        print(f"  [+] Arquivo: {file_path}")
+    else:
+        print(f"  [=] Arquivo já existe: {file_path}")
 
-print("Estrutura gerada com sucesso!")
+print("\n✅ Estrutura completa gerada com sucesso!")
