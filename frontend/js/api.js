@@ -88,4 +88,45 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // 3. LOGIN DE USUÁRIO (ADMIN, MÉDICO OU PACIENTE)
+    const loginForm = document.getElementById('registerForm');
+    if (loginForm) {
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+
+            if (!emailInput || !passwordInput) return;
+
+            const payload = {
+                email: emailInput.value.trim(),
+                senha: passwordInput.value
+            };
+
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    // Salva dados do utilizador logado para utilizar no painel
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    
+                    // Redireciona para o painel correto retornado pela API (/pages/admin.html, /pages/medico.html ou /pages/user.html)
+                    window.location.href = data.redirect_url;
+                } else {
+                    alert(data.message || 'E-mail ou senha incorretos.');
+                }
+            } catch (error) {
+                console.error('Erro na requisição de login:', error);
+                alert('Ocorreu um erro ao conectar ao servidor.');
+            }
+        });
+    }
+
 });
