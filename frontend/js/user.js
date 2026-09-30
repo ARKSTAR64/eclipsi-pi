@@ -204,6 +204,58 @@ document.addEventListener('DOMContentLoaded', () => {
       );
     });
   }
+  // Adicionar dentro do evento DOMContentLoaded
+    const openSettingsBtn = document.getElementById('openSettingsBtn');
+    const backToProfileBtn = document.getElementById('backToProfileBtn');
+    const profileForm = document.getElementById('profileForm');
+    const avatarInput = document.getElementById('avatarInput');
+    const profileAvatarPreview = document.getElementById('profileAvatarPreview');
+
+    // Navegar do Perfil para Configurações via botão
+    if (openSettingsBtn) {
+    openSettingsBtn.addEventListener('click', () => {
+        document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
+        document.getElementById('configuracoes').classList.add('active');
+    });
+    }
+
+    // Voltar do menu de Configurações para o Perfil
+    if (backToProfileBtn) {
+    backToProfileBtn.addEventListener('click', () => {
+        document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
+        document.getElementById('perfil').classList.add('active');
+    });
+    }
+
+    // Preview da alteração da foto de perfil
+    if (avatarInput && profileAvatarPreview) {
+    avatarInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            profileAvatarPreview.src = event.target.result;
+        };
+        reader.readAsDataURL(file);
+        }
+    });
+    }
+
+    // Submissão do Formulário de Perfil
+    if (profileForm) {
+    profileForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        openConfirmModal(
+        'Salvar Perfil',
+        'Deseja salvar as alterações em seu perfil?',
+        'Confirmar',
+        false,
+        () => {
+            alert('Perfil atualizado com sucesso!');
+        }
+        );
+    });
+    }
 });
 
 // Manipulação dos Cards de Profissionais e Modal

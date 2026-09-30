@@ -140,3 +140,24 @@ body{
         width: 100%;
     }
 }
+
+.back-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    width: 100%;
+    border: none;
+    border-bottom: 5px solid #4a4a4a;
+    border-radius: 15px;
+    background-color: #a8a8a8;
+    color: #1d0027;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.back-btn:hover {
+    background-color: #8c8c8c;
+}
