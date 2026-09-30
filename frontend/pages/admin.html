@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="../css/medico.css">
   <style>
-    /* Estilos específicos complementares para a visão administrativa */
+    /* Estilos específicos para a visão administrativa */
     .table-container {
       background: #ffffff;
       border-radius: 12px;
@@ -87,6 +87,23 @@
       font-weight: bold;
       color: #7500a8;
     }
+
+    /* Botão de Excluir Perfil dentro do Modal */
+    .btn-delete-user {
+      background-color: #d9534f;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: background 0.2s;
+    }
+
+    .btn-delete-user:hover {
+      background-color: #c9302c;
+    }
   </style>
 </head>
 <body>
@@ -117,9 +134,10 @@
       <button class="close-btn" id="closeBtn">&times;</button>
     </div>
     <nav class="sidebar-nav">
-        <button class="nav-item active" data-target="usuarios">Gestão de Usuários</button>
-        <button class="nav-item" data-target="estatisticas">Estatísticas Gerais</button>
-        <button class="nav-item logout" data-target="sair">Sair</button>
+        <button class="nav-item active" data-target="usuarios"><i class="fa-solid fa-users"></i> Gestão de Usuários</button>
+        <button class="nav-item" data-target="estatisticas"><i class="fa-solid fa-chart-line"></i> Estatísticas Gerais</button>
+        <button class="nav-item" data-target="perfil"><i class="fa-solid fa-user-gear"></i> Perfil e Configurações</button>
+        <button class="nav-item logout" data-target="sair"><i class="fa-solid fa-right-from-bracket"></i> Sair</button>
     </nav>
   </aside>
 
@@ -152,7 +170,7 @@
               <td><span class="badge badge-medico">Médico (Psicólogo)</span></td>
               <td>10/01/2026</td>
               <td>
-                <button class="btn-edit-user" onclick="openEditUserModal('Dra. Ana Silva', 'dra.anasilva@saudemental.com', 'Médico')">
+                <button class="btn-edit-user" onclick="openEditUserModal('Dra. Ana Silva', 'dra.anasilva@saudemental.com', 'Médico', 'CRP 06/123456', '(81) 99999-1111', 'ativo')">
                   <i class="fa-solid fa-pen"></i> Editar
                 </button>
               </td>
@@ -163,7 +181,7 @@
               <td><span class="badge badge-paciente">Paciente</span></td>
               <td>15/02/2026</td>
               <td>
-                <button class="btn-edit-user" onclick="openEditUserModal('João da Silva', 'joao.silva@email.com', 'Paciente')">
+                <button class="btn-edit-user" onclick="openEditUserModal('João da Silva', 'joao.silva@email.com', 'Paciente', 'N/A', '(81) 98888-2222', 'ativo')">
                   <i class="fa-solid fa-pen"></i> Editar
                 </button>
               </td>
@@ -174,7 +192,7 @@
               <td><span class="badge badge-paciente">Paciente</span></td>
               <td>03/03/2026</td>
               <td>
-                <button class="btn-edit-user" onclick="openEditUserModal('Maria Oliveira', 'maria.oliveira@email.com', 'Paciente')">
+                <button class="btn-edit-user" onclick="openEditUserModal('Maria Oliveira', 'maria.oliveira@email.com', 'Paciente', 'N/A', '(81) 97777-3333', 'suspenso')">
                   <i class="fa-solid fa-pen"></i> Editar
                 </button>
               </td>
@@ -188,7 +206,7 @@
               <td><span class="badge badge-medico">Médico (Psiquiatra)</span></td>
               <td>18/05/2026</td>
               <td>
-                <button class="btn-edit-user" onclick="openEditUserModal('Dr. Carlos Mendes', 'carlos.mendes@saudemental.com', 'Médico')">
+                <button class="btn-edit-user" onclick="openEditUserModal('Dr. Carlos Mendes', 'carlos.mendes@saudemental.com', 'Médico', 'CRM 12345/PE', '(81) 96666-4444', 'ativo')">
                   <i class="fa-solid fa-pen"></i> Editar
                 </button>
               </td>
@@ -203,7 +221,6 @@
       <h1>Estatísticas Globais</h1>
       <p>Métricas financeiras e fluxo de novos cadastros na plataforma:</p>
 
-      <!-- Receita Financeira -->
       <div class="earnings-container">
         <h3 class="earnings-title"><i class="fa-solid fa-sack-dollar"></i> Arrecadação Financeira</h3>
         <div class="earnings-grid">
@@ -220,7 +237,6 @@
         </div>
       </div>
 
-      <!-- Novos Usuários Cadastrados -->
       <div class="earnings-container" style="margin-top: 32px;">
         <h3 class="earnings-title"><i class="fa-solid fa-user-plus"></i> Novos Cadastros de Usuários</h3>
         <div class="earnings-grid">
@@ -239,7 +255,6 @@
         </div>
       </div>
 
-      <!-- Médicos por Categoria / Especialidade -->
       <div style="margin-top: 32px;">
         <h3 class="earnings-title"><i class="fa-solid fa-user-doctor"></i> Profissionais por Especialidade</h3>
         <div class="stats-category-grid">
@@ -267,6 +282,40 @@
       </div>
     </section>
 
+    <!-- Aba 3: Perfil do Administrador -->
+    <section id="perfil" class="page-content">
+      <h1>Perfil do Administrador</h1>
+      <p>Gerencie e altere as configurações da sua conta de Administrador:</p>
+
+      <form id="adminProfileForm" class="settings-form">
+        <div class="settings-group">
+          <div class="profile-avatar-wrapper">
+            <img src="https://via.placeholder.com/120" alt="Avatar Admin" class="profile-avatar-lg">
+            <label class="avatar-upload-btn">
+              Alterar Foto <input type="file" hidden accept="image/*">
+            </label>
+          </div>
+
+          <div class="form-group">
+            <label>Nome Completo</label>
+            <input type="text" id="adminName" value="Administrador Principal" required>
+          </div>
+
+          <div class="form-group">
+            <label>E-mail Corporativo</label>
+            <input type="email" id="adminEmail" value="admin@saudemental.com" required>
+          </div>
+
+          <div class="form-group">
+            <label>Nova Senha</label>
+            <input type="password" id="adminPassword" placeholder="Deixe em branco para manter a atual">
+          </div>
+
+          <button type="submit" class="save-settings-btn">Salvar Alterações do Admin</button>
+        </div>
+      </form>
+    </section>
+
     <section id="sair" class="page-content">
       <h1>Sessão Encerrada</h1>
       <p>Você desconectou da conta do Administrador.</p>
@@ -274,20 +323,42 @@
 
   </main>
 
-  <!-- Modal para Editar Usuário -->
+  <!-- Modal para Visualizar, Editar e Excluir Perfil de Usuário -->
   <dialog id="editUserModal" class="modal">
     <div class="modal-content">
       <button class="modal-close" onclick="document.getElementById('editUserModal').close()">&times;</button>
-      <h2>Editar Usuário</h2>
+      <h2>Perfil do Usuário</h2>
+      <p style="font-size: 0.85rem; color: #666; margin-top: 4px;">Edite as informações abaixo ou remova a conta.</p>
+
       <form id="editUserForm" style="margin-top: 16px; display: flex; flex-direction: column; gap: 12px;">
         <div class="form-group">
-          <label>Nome do Usuário</label>
+          <label>Nome Completo</label>
           <input type="text" id="editUserName" required>
         </div>
+
         <div class="form-group">
           <label>E-mail</label>
           <input type="email" id="editUserEmail" required>
         </div>
+
+        <div class="form-group">
+          <label>Tipo de Conta</label>
+          <select class="settings-select" id="editUserRole">
+            <option value="Paciente">Paciente</option>
+            <option value="Médico">Médico / Profissional</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Registro / CRM / CRP</label>
+          <input type="text" id="editUserDoc" placeholder="N/A ou Número do Registro">
+        </div>
+
+        <div class="form-group">
+          <label>Telefone / Contato</label>
+          <input type="text" id="editUserPhone">
+        </div>
+
         <div class="form-group">
           <label>Status da Conta</label>
           <select class="settings-select" id="editUserStatus">
@@ -296,7 +367,14 @@
             <option value="pendente">Pendente de Aprovação</option>
           </select>
         </div>
-        <button type="submit" class="save-settings-btn" style="margin-top: 8px;">Salvar Alterações</button>
+
+        <button type="submit" class="save-settings-btn" style="margin-top: 8px;">
+          <i class="fa-solid fa-floppy-disk"></i> Salvar Alterações
+        </button>
+        
+        <button type="button" class="btn-delete-user" onclick="deleteUserProfile()">
+          <i class="fa-solid fa-trash"></i> Excluir Perfil Permanentemente
+        </button>
       </form>
     </div>
   </dialog>
@@ -308,6 +386,9 @@
       </button>
       <button class="nav-item" data-target="estatisticas" aria-label="Estatísticas">
           <i class="fa-solid fa-chart-line"></i>
+      </button>
+      <button class="nav-item" data-target="perfil" aria-label="Perfil">
+          <i class="fa-solid fa-user-gear"></i>
       </button>
   </footer>
 
