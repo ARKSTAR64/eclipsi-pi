@@ -149,3 +149,85 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+
+// Estrutura de dados contendo o histórico de consultas de cada paciente
+  const patientConsultationsData = {
+    "João da Silva": [
+      {
+        date: "15/09/2026 - 14:00",
+        type: "Sessão TCC / Acompanhamento",
+        notes: "Paciente relatou melhora nos episódios de ansiedade após início do diário de pensamentos. Trabalhado reestruturação cognitiva."
+      },
+      {
+        date: "08/09/2026 - 14:00",
+        type: "Sessão TCC / Acompanhamento",
+        notes: "Identificados gatilhos de estresse no ambiente de trabalho. Recomendado exercícios de respiração diafragmática."
+      },
+      {
+        date: "01/09/2026 - 14:00",
+        type: "Sessão TCC / Primeira Consulta",
+        notes: "Acolhimento e levantamento do histórico clínico. Paciente relata sintomas compatíveis com Burnout."
+      }
+    ]
+  };
+
+  // Modal de Ficha do Paciente e Consultas
+  const doctorCards = document.querySelectorAll('.doctor-card');
+  const doctorModal = document.getElementById('doctorModal');
+  const closeDoctorModalBtn = document.getElementById('closeDoctorModalBtn');
+  const doctorModalImg = document.getElementById('doctorModalImg');
+  const doctorModalName = document.getElementById('doctorModalName');
+  const doctorModalProfession = document.getElementById('doctorModalProfession');
+  const doctorModalRating = document.getElementById('doctorModalRating');
+  const doctorModalBio = document.getElementById('doctorModalBio');
+  const patientConsultationsList = document.getElementById('patientConsultationsList');
+
+  doctorCards.forEach(card => {
+    card.addEventListener('click', () => {
+      const name = card.getAttribute('data-name');
+      const profession = card.getAttribute('data-profession');
+      const rating = card.getAttribute('data-rating');
+      const img = card.getAttribute('data-img');
+      const bio = card.getAttribute('data-bio');
+
+      if (doctorModalName) doctorModalName.textContent = name;
+      if (doctorModalProfession) doctorModalProfession.textContent = profession;
+      if (doctorModalRating) doctorModalRating.textContent = rating;
+      if (doctorModalImg) { doctorModalImg.src = img; doctorModalImg.alt = name; }
+      if (doctorModalBio) doctorModalBio.textContent = bio;
+
+      // Renderiza as consultas do paciente selecionado
+      if (patientConsultationsList) {
+        patientConsultationsList.innerHTML = '';
+        const consultations = patientConsultationsData[name] || [];
+
+        if (consultations.length === 0) {
+          patientConsultationsList.innerHTML = '<p style="font-size:0.9rem; color:#666;">Nenhuma consulta registrada para este paciente.</p>';
+        } else {
+          consultations.forEach(item => {
+            const itemDiv = document.createElement('div');
+            itemDiv.style.backgroundColor = '#f9f9f9';
+            itemDiv.style.borderLeft = '4px solid #7500a8';
+            itemDiv.style.padding = '10px 12px';
+            itemDiv.style.borderRadius = '6px';
+
+            itemDiv.innerHTML = `
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                <strong style="font-size:0.95rem; color:#7500a8;">${item.type}</strong>
+                <small style="color:#666; font-size:0.8rem;">🗓 ${item.date}</small>
+              </div>
+              <p style="font-size:0.88rem; color:#333; margin:0;">${item.notes}</p>
+            `;
+
+            patientConsultationsList.appendChild(itemDiv);
+          });
+        }
+      }
+
+      doctorModal.showModal();
+    });
+  });
+
+  if (closeDoctorModalBtn) {
+    closeDoctorModalBtn.addEventListener('click', () => doctorModal.close());
+  }

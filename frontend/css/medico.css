@@ -390,3 +390,73 @@ body {
     padding-bottom: 80px;
   }
 }
+
+/* Dashboard de Ganhos no Perfil */
+.earnings-container {
+  margin-top: 20px;
+  max-width: 600px;
+}
+
+.earnings-title {
+  font-size: 1.1rem;
+  color: #58007e;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.earnings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.earnings-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 16px 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  border-left: 4px solid #7500a8;
+}
+
+.earnings-card.highlight {
+  background-color: #7500a8;
+  color: #ffffff;
+  border-left: none;
+}
+
+.earnings-label {
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: #666666;
+  margin-bottom: 6px;
+}
+
+.earnings-card.highlight .earnings-label {
+  color: #e2c1f7;
+}
+
+.earnings-value {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #7500a8;
+  margin-bottom: 4px;
+}
+
+.earnings-card.highlight .earnings-value {
+  color: #ffffff;
+}
+
+.earnings-subtext {
+  font-size: 0.75rem;
+  color: #2e7d32;
+  font-weight: bold;
+}
+
+.earnings-card.highlight .earnings-subtext {
+  color: #f5dfff;
+  font-weight: normal;
+}
