@@ -5,28 +5,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register Page</title>
 
-    <link rel="stylesheet" href="../css/cadastro.css">
-    <script src="../js/api.js" defer></script>
+    <link rel="stylesheet" href="/css/cadastro.css">
+    <script src="/js/api.js" defer></script>
 </head>
 <body>
     
     <main class="container">
         <div class="logo-tittle">
-            <img src="./src/images/tela-protoripo.png" alt="Tela de prototipação" class="logo">
+            <img src="/images/tela-protoripo.png" alt="Tela de prototipação" class="logo">
             <h2 class="title">Cadastro</h2>
         </div>
 
         <div class="register">
-            <form action="" class="register-form" id="registerForm" method="POST">
+            <form class="register-form" id="form-user" method="POST">
+                <!-- Nome -->
                 <div class="sentence-line">
                     <input type="text" id="name" class="register-input" placeholder="Coloque seu nome" required>
                 </div>
+
+                <!-- E-mail -->
                 <div class="sentence-line">
-                    <input type="text" id="email" class="register-input" placeholder="Coloque seu email" required>
+                    <input type="email" id="email" class="register-input" placeholder="Coloque seu email" required>
                 </div>
+
+                <!-- Telefone -->
                 <div class="sentence-line">
-                    <input type="password" id="password" class="register-input" placeholder="Coloque sua senha" required >
+                    <input type="tel" id="phone" class="register-input" placeholder="Telefone / WhatsApp (DD + número)">
                 </div>
+
+                <!-- Idade e Gênero (Lado a lado) -->
+                <div class="form-row" style="display: flex; gap: 10px;">
+                    <div class="sentence-line" style="flex: 1;">
+                        <input type="number" id="age" class="register-input" placeholder="Idade" min="1" max="120">
+                    </div>
+                    <div class="sentence-line" style="flex: 1;">
+                        <select id="gender" class="register-input register-select">
+                            <option value="" disabled selected>Gênero</option>
+                            <option value="Feminino">Feminino</option>
+                            <option value="Masculino">Masculino</option>
+                            <option value="Outro">Outro / Prefiro não dizer</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Senha -->
+                <div class="sentence-line">
+                    <input type="password" id="password" class="register-input" placeholder="Coloque sua senha" required>
+                </div>
+
+                <!-- Confirmação de Senha -->
                 <div class="sentence-line">
                     <input type="password" id="confirm-password" class="register-input" placeholder="Confirme sua senha" required>
                 </div>
@@ -34,7 +61,7 @@
                 <div class="btn-line">
                     <button class="register-btn" type="submit">Cadastrar-se!</button>
                     <button class="back-btn" type="button" onclick="history.back()">Voltar</button>
-                    <p class="register-p">Já fez um cadastro? <a href="./login.html" class="register-link">Clique aqui!</a></p>
+                    <p class="register-p">Já fez um cadastro? <a href="/pages/login.html" class="register-link">Clique aqui!</a></p>
                 </div>
             </form>
         </div>

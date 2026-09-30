@@ -1,101 +1,119 @@
 import os
-from flask import Flask, send_from_directory
+import sys
+import sqlite3
+from flask import Flask, send_from_directory, request, jsonify
+from werkzeug.security import generate_password_hash
 
-app = Flask(__name__)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+FRONTEND_DIR = os.path.join(BASE_DIR, "frontend")
+PAGES_DIR = os.path.join(FRONTEND_DIR, "pages")
 
-# ==========================================
-# ROTAS PARA ARQUIVOS ESTÁTICOS (CSS E JS)
-# ==========================================
+sys.path.append(os.path.join(BASE_DIR, 'backend'))
+from database import init_db, get_db
 
+app = Flask(__name__, static_folder=FRONTEND_DIR, static_url_path="")
 
-@app.route("/css/<path:filename>")
-def serve_css(filename):
-    return send_from_directory("frontend/css", filename)
-
-
-@app.route("/js/<path:filename>")
-def serve_js(filename):
-    return send_from_directory("frontend/js", filename)
-
+init_db()
 
 # ==========================================
-# ROTA INICIAL (INDEX)
+# ROTAS DE FRONTEND
 # ==========================================
-
 
 @app.route("/")
 def index():
-    return send_from_directory("frontend", "index.html")
+    return send_from_directory(FRONTEND_DIR, "index.html")
 
+# Captura acessos diretos como /pages/login.html ou /pages/login
+@app.route("/pages/<path:page_name>")
+def serve_pages(page_name):
+    if not page_name.endswith(".html"):
+        page_name += ".html"
+    return send_from_directory(PAGES_DIR, page_name)
+
+# Rota de segurança: se o navegador pedir /login.html ou /cadastro.html diretamente sem /pages/
+@app.route("/<path:page_name>")
+def serve_direct_html(page_name):
+    if not page_name.endswith(".html"):
+        page_name_html = page_name + ".html"
+    else:
+        page_name_html = page_name
+
+    # Verifica se o ficheiro existe na pasta pages
+    if os.path.exists(os.path.join(PAGES_DIR, page_name_html)):
+        return send_from_directory(PAGES_DIR, page_name_html)
+    
+    # Caso seja um recurso estático (CSS, JS, Imagens) na raiz de frontend
+    return send_from_directory(FRONTEND_DIR, page_name)
 
 # ==========================================
-# ROTAS EXPLÍCITAS PARA CADA PÁGINA (HTML)
+# ROTAS DE API (CADASTRO)
 # ==========================================
 
+@app.route("/api/register/user", methods=["POST"])
+def register_user():
+    data = request.get_json() or {}
+    
+    nome = data.get("nome")
+    email = data.get("email")
+    idade = data.get("idade")
+    telefone = data.get("telefone")
+    genero = data.get("genero")
+    senha = data.get("senha")
 
-@app.route("/login")
-@app.route("/pages/login.html")
-def page_login():
-    return send_from_directory("frontend/pages", "login.html")
+    if not nome or not email or not senha:
+        return jsonify({"success": False, "message": "Preencha os campos obrigatórios!"}), 400
 
+    senha_hash = generate_password_hash(senha)
 
-@app.route("/cadastro-user")
-@app.route("/pages/cadastro-user.html")
-def page_cadastro_user():
-    return send_from_directory("frontend/pages", "cadastro-user.html")
+    conn = get_db()
+    cursor = conn.cursor()
+    try:
+        cursor.execute('''
+            INSERT INTO users (nome, email, idade, telefone, genero, senha, role)
+            VALUES (?, ?, ?, ?, ?, ?, 'paciente')
+        ''', (nome, email, idade, telefone, genero, senha_hash))
+        conn.commit()
+        return jsonify({"success": True, "message": "Paciente cadastrado com sucesso!"}), 201
+    except sqlite3.IntegrityError:
+        return jsonify({"success": False, "message": "Este e-mail já está cadastrado."}), 400
+    except Exception as e:
+        return jsonify({"success": False, "message": f"Erro interno: {str(e)}"}), 500
+    finally:
+        conn.close()
 
+@app.route("/api/register/doctor", methods=["POST"])
+def register_doctor():
+    data = request.get_json() or {}
+    
+    nome = data.get("nome")
+    email = data.get("email")
+    telefone = data.get("telefone")
+    especialidade = data.get("especialidade")
+    registro = data.get("registro")
+    uf = data.get("uf")
+    senha = data.get("senha")
+    descricao = data.get("descricao")
 
-@app.route("/cadastro-medico")
-@app.route("/pages/cadastro-medico.html")
-def page_cadastro_medico():
-    return send_from_directory("frontend/pages", "cadastro-medico.html")
+    if not nome or not email or not registro or not senha:
+        return jsonify({"success": False, "message": "Preencha os campos obrigatórios!"}), 400
 
+    senha_hash = generate_password_hash(senha)
 
-@app.route("/agendamentos")
-@app.route("/pages/agendamentos.html")
-def page_agendamentos():
-    return send_from_directory("frontend/pages", "agendamentos.html")
-
-
-@app.route("/chat")
-@app.route("/pages/chat.html")
-def page_chat():
-    return send_from_directory("frontend/pages", "chat.html")
-
-
-@app.route("/pagamento")
-@app.route("/pages/pagamento.html")
-def page_pagamento():
-    return send_from_directory("frontend/pages", "pagamento.html")
-
-
-@app.route("/perfil")
-@app.route("/pages/perfil.html")
-def page_perfil():
-    return send_from_directory("frontend/pages", "perfil.html")
-
-
-@app.route("/psicologos")
-@app.route("/pages/psicologos.html")
-def page_psicologos():
-    return send_from_directory("frontend/pages", "psicologos.html")
-
-
-@app.route("/quiz")
-@app.route("/pages/quiz.html")
-def page_quiz():
-    return send_from_directory("frontend/pages", "quiz.html")
-
-
-@app.route("/user")
-@app.route("/pages/user.html")
-def page_user():
-    return send_from_directory("frontend/pages", "user.html")
-
-@app.route("/images/<path:filename>")
-def serve_images(filename):
-    return send_from_directory("frontend/images", filename)
-
+    conn = get_db()
+    cursor = conn.cursor()
+    try:
+        cursor.execute('''
+            INSERT INTO users (nome, email, telefone, especialidade, registro, uf, senha, descricao, role)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'medico')
+        ''', (nome, email, telefone, especialidade, registro, uf, senha_hash, descricao))
+        conn.commit()
+        return jsonify({"success": True, "message": "Profissional cadastrado com sucesso!"}), 201
+    except sqlite3.IntegrityError:
+        return jsonify({"success": False, "message": "E-mail ou registro profissional já cadastrado."}), 400
+    except Exception as e:
+        return jsonify({"success": False, "message": f"Erro interno: {str(e)}"}), 500
+    finally:
+        conn.close()
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
