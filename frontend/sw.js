@@ -5,11 +5,18 @@ const ASSETS_TO_CACHE = [
   '/pages/login.html',
   '/pages/cadastro-medico.html',
   '/pages/cadastro-user.html',
+  '/pages/user.html',
+  '/pages/admin.html',
+  '/pages/medico.html',
   '/css/cadastro.css',
+  '/css/user.css',
+  '/css/medico.css',
   '/css/style.css',
-  '/js/script.js',
+  '/js/admin.js',
+  '/js/user.js',
+  '/js/medico.js',
   '/js/api.js',
-  '/images/logo-ruim.png'
+  '/images/logo-ruim.png',
 ];
 
 // Instalação: adiciona arquivos ao cache
