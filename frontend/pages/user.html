@@ -256,111 +256,103 @@
         </div>
     </dialog>
 
-    <!-- Seção Configurações -->
+    <!-- Seção Perfil do Usuário com Sub-abas internas -->
     <section id="perfil" class="page-content">
         <div class="profile-header-container">
             <h1>Meu Perfil</h1>
-            <button type="button" id="openSettingsBtn" class="settings-nav-btn">
-            <i class="fa-solid fa-gear"></i> Configurações
+        </div>
+
+        <!-- Navegação por Sub-abas (Tabs) dentro do Perfil -->
+        <div class="profile-tabs-nav">
+            <button type="button" class="tab-btn active" data-tab="tab-dados">
+                <i class="fa-solid fa-user"></i> Dados Pessoais
+            </button>
+            <button type="button" class="tab-btn" data-tab="tab-configuracoes">
+                <i class="fa-solid fa-gear"></i> Configurações
             </button>
         </div>
 
-        <form id="profileForm" class="settings-form">
-            <div class="settings-group profile-card-edit">
-            <!-- Foto de Perfil com upload/preview -->
-            <div class="profile-avatar-wrapper">
-                <img id="profileAvatarPreview" src="https://via.placeholder.com/120" alt="Foto de perfil" class="profile-avatar-lg">
-                <label for="avatarInput" class="avatar-upload-btn">
-                <i class="fa-solid fa-camera"></i> Alterar Foto
-                </label>
-                <input type="file" id="avatarInput" accept="image/*" style="display: none;">
-            </div>
+        <!-- Conteúdo do Tab 1: Dados Pessoais / Editar Perfil -->
+        <div id="tab-dados" class="profile-tab-content active">
+            <form id="profileForm" class="settings-form">
+                <div class="settings-group profile-card-edit">
+                    <div class="profile-avatar-wrapper">
+                    <img id="profileAvatarPreview" src="https://via.placeholder.com/120" alt="Foto de perfil" class="profile-avatar-lg">
+                    <label for="avatarInput" class="avatar-upload-btn">
+                        <i class="fa-solid fa-camera"></i> Alterar Foto
+                    </label>
+                    <input type="file" id="avatarInput" accept="image/*" style="display: none;">
+                    </div>
 
-            <!-- Nome -->
-            <div class="form-group">
-                <label for="profileName">Nome</label>
-                <input type="text" id="profileName" name="profileName" value="João da Silva">
-            </div>
+                    <div class="form-group">
+                    <label for="profileName">Nome Completo</label>
+                    <input type="text" id="profileName" name="profileName" value="João da Silva">
+                    </div>
 
-            <!-- Gênero -->
-            <div class="form-group">
-                <label for="profileGender">Gênero</label>
-                <select id="profileGender" class="settings-select">
-                <option value="homem-cis" selected>Homem cisgênero</option>
-                <option value="mulher-cis">Mulher cisgênero</option>
-                <option value="homem-trans">Homem transgênero</option>
-                <option value="mulher-trans">Mulher transgênera</option>
-                <option value="nao-binario">Não-binário</option>
-                <option value="outro">Outro / Prefiro não dizer</option>
-                </select>
-            </div>
+                    <div class="form-group">
+                    <label for="profileGender">Gênero</label>
+                    <select id="profileGender" class="settings-select">
+                        <option value="homem-cis" selected>Homem cisgênero</option>
+                        <option value="mulher-cis">Mulher cisgênero</option>
+                        <option value="homem-trans">Homem transgênero</option>
+                        <option value="mulher-trans">Mulher transgênera</option>
+                        <option value="nao-binario">Não-binário</option>
+                        <option value="outro">Outro / Prefiro não dizer</option>
+                    </select>
+                    </div>
 
-            <!-- Descrição (Bio) -->
-            <div class="form-group">
-                <label for="profileBio">Descrição de si mesmo (Bio)</label>
-                <textarea id="profileBio" name="profileBio" rows="4" placeholder="Conte um pouco sobre você...">Buscando autoconhecimento e uma rotina mais saudável.</textarea>
-            </div>
+                    <div class="form-group">
+                    <label for="profileBio">Sobre Mim (Bio)</label>
+                    <textarea id="profileBio" name="profileBio" rows="3" placeholder="Conte um pouco sobre você...">Buscando autoconhecimento e uma rotina mais saudável.</textarea>
+                    </div>
 
-            <button type="submit" class="save-settings-btn">Salvar Perfil</button>
-            </div>
-        </form>
-        </section>
-
-        <!-- Seção Configurações (Acessada via Botão do Perfil) -->
-        <section id="configuracoes" class="page-content">
-        <div class="settings-header-container">
-            <button type="button" id="backToProfileBtn" class="btn-back">
-            <i class="fa-solid fa-arrow-left"></i> Voltar ao Perfil
-            </button>
-            <h1>Configurações</h1>
+                    <button type="submit" class="save-settings-btn">Salvar Dados Pessoais</button>
+                </div>
+            </form>
         </div>
 
-        <form id="settingsForm" class="settings-form">
-            <!-- Informações da Conta -->
-            <div class="settings-group">
-            <h3>Informações de Acesso</h3>
-            <div class="form-group">
-                <label for="userEmail">E-mail</label>
-                <input type="email" id="userEmail" name="userEmail" value="joao.silva@email.com">
-            </div>
-            <div class="form-group">
-                <label for="userPhone">Telefone</label>
-                <input type="tel" id="userPhone" name="userPhone" value="(11) 98765-4321">
-            </div>
-            </div>
+        <!-- Conteúdo do Tab 2: Configurações do Próprio Perfil -->
+        <div id="tab-configuracoes" class="profile-tab-content">
+            <form id="settingsForm" class="settings-form">
+                <!-- Credenciais de Acesso -->
+                <div class="settings-group">
+                    <h3>Acesso e Segurança</h3>
+                    <div class="form-group">
+                    <label for="userEmail">E-mail</label>
+                    <input type="email" id="userEmail" name="userEmail" value="joao.silva@email.com">
+                    </div>
+                    <div class="form-group">
+                    <label for="userPhone">Telefone / WhatsApp</label>
+                    <input type="tel" id="userPhone" name="userPhone" value="(11) 98765-4321">
+                    </div>
+                    <div class="form-group">
+                    <label for="userPassword">Nova Senha</label>
+                    <input type="password" id="userPassword" placeholder="Digite apenas se desejar alterar">
+                    </div>
+                </div>
 
-            <!-- Preferências do Aplicativo -->
-            <div class="settings-group">
-            <h3>Preferências do Aplicativo</h3>
-            <div class="form-group-toggle">
-                <label for="notifEmail">Notificações por E-mail</label>
-                <input type="checkbox" id="notifEmail" class="toggle-checkbox" checked>
-            </div>
-            <div class="form-group-toggle">
-                <label for="notifSms">Notificações por SMS/WhatsApp</label>
-                <input type="checkbox" id="notifSms" class="toggle-checkbox">
-            </div>
-            <div class="form-group">
-                <label for="appTheme">Tema da Interface</label>
-                <select id="appTheme" class="settings-select">
-                <option value="light" selected>Claro (Padrão)</option>
-                <option value="dark">Escuro</option>
-                </select>
-            </div>
-            </div>
+                <!-- Notificações e Preferências -->
+                <div class="settings-group">
+                    <h3>Notificações do Usuário</h3>
+                    <div class="form-group-toggle">
+                    <label for="notifEmail">Alertas de consultas por E-mail</label>
+                    <input type="checkbox" id="notifEmail" class="toggle-checkbox" checked>
+                    </div>
+                    <div class="form-group-toggle">
+                    <label for="notifSms">Lembretes por WhatsApp</label>
+                    <input type="checkbox" id="notifSms" class="toggle-checkbox" checked>
+                    </div>
+                </div>
 
-            <button type="submit" class="save-settings-btn">Salvar Configurações</button>
+                <button type="submit" class="save-settings-btn">Salvar Configurações</button>
 
-            <button type="button" id="mobileLogoutBtn" class="mobile-logout-btn">
-            <i class="fa-solid fa-right-from-bracket"></i> Sair da Conta
-            </button>
-
-            <div class="danger-zone">
-            <h3>Zona de Perigo</h3>
-            <p>Esta ação é irreversível. Todos os seus dados serão excluídos permanentemente.</p>
-            <button type="button" id="deleteAccountBtn" class="delete-account-btn">Excluir Minha Conta</button>
-            </div>
-        </form>
+                <div class="danger-zone">
+                    <h3>Zona de Perigo</h3>
+                    <p>Esta ação apagará apenas a sua conta do sistema.</p>
+                    <button type="button" id="deleteAccountBtn" class="delete-account-btn">Excluir Minha Conta</button>
+                </div>
+            </form>
+        </div>
     </section>
 
     <!-- Modal de Confirmação de Alterações / Exclusão -->

@@ -460,3 +460,37 @@ body {
   color: #f5dfff;
   font-weight: normal;
 }
+
+/* Barra de Busca e Filtros */
+.filter-bar {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.filter-input, .filter-select {
+  padding: 10px 16px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  font-size: 0.95rem;
+  outline: none;
+  background-color: #ffffff;
+}
+
+.filter-input {
+  flex: 2;
+  min-width: 200px;
+}
+
+.filter-select {
+  flex: 1;
+  min-width: 180px;
+  cursor: pointer;
+}
+
+.filter-input:focus, .filter-select:focus {
+  border-color: #7500a8;
+  box-shadow: 0 0 0 2px rgba(117, 0, 168, 0.2);
+}

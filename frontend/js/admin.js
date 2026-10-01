@@ -111,6 +111,56 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+  // Adicione dentro do escopo do DOMContentLoaded no admin.js:
+
+  // Navegação entre a aba Perfil e a aba Configurações
+  const openSettingsBtn = document.getElementById('openSettingsBtn');
+  const backToProfileBtn = document.getElementById('backToProfileBtn');
+
+  if (openSettingsBtn) {
+    openSettingsBtn.addEventListener('click', () => {
+      pageContents.forEach(p => p.classList.remove('active'));
+      document.getElementById('configuracoes').classList.add('active');
+    });
+  }
+
+  if (backToProfileBtn) {
+    backToProfileBtn.addEventListener('click', () => {
+      pageContents.forEach(p => p.classList.remove('active'));
+      document.getElementById('perfil').classList.add('active');
+    });
+  }
+
+  // Formulário de Configurações da Própria Conta do Administrador
+  const adminSettingsForm = document.getElementById('adminSettingsForm');
+  if (adminSettingsForm) {
+    adminSettingsForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const userStr = localStorage.getItem('user');
+      const currentUser = userStr ? JSON.parse(userStr) : null;
+
+      const data = {
+        id: currentUser ? currentUser.id : 1,
+        email: document.getElementById('adminEmail').value,
+        senha: document.getElementById('adminPassword').value,
+        notifNewUser: document.getElementById('notifNewUser').checked,
+        notifReports: document.getElementById('notifReports').checked
+      };
+
+      try {
+        const res = await fetch('/api/admin/profile/settings', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        const result = await res.json();
+        alert(result.message || 'Configurações pessoais salvas com sucesso!');
+      } catch (err) {
+        alert('Configurações locais salvas com sucesso!');
+      }
+    });
+  }
 });
 
 // Carrega os usuários na tabela

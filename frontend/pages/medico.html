@@ -53,43 +53,53 @@
         <h1>Próximas Consultas</h1>
         <p>Acompanhamento dos atendimentos agendados:</p>
 
-        <div class="cards-grid">
+        <!-- Barra de Filtros e Busca para Agenda -->
+        <div class="filter-bar">
+            <input type="text" id="searchAgenda" class="filter-input" placeholder="Buscar consulta por paciente...">
+            <select id="filterAgendaType" class="filter-select">
+                <option value="">Todos os tipos de consulta</option>
+                <option value="Sessão TCC">Sessão TCC</option>
+                <option value="Avaliação Neuropsicológica">Avaliação Neuropsicológica</option>
+            </select>
+        </div>
+
+        <div class="cards-grid" id="agendaGrid">
             <!-- Consulta 1 -->
             <article class="appointment-card" 
-                     data-patient="João da Silva" 
-                     data-type="Sessão TCC / Primeira Consulta" 
-                     data-date="30/09/2026 às 14:00" 
-                     data-price="R$ 200,00" 
-                     data-img="https://via.placeholder.com/150" 
-                     data-history="Paciente relata episódios recorrentes de ansiedade no trabalho e sintomas de burnout. Histórico sem medicações prévias.">
-              <img src="https://via.placeholder.com/150" alt="Foto do Paciente" class="card-img">
-              <div class="card-info">
-                  <h3>João da Silva</h3>
-                  <span class="specialty">Sessão TCC / Primeira Consulta</span>
-                  <p class="card-date">🗓 30/09/2026 - 14:00</p>
-                  <p class="card-price">💰 R$ 200,00</p>
-                  <p class="card-preview">Paciente relata episódios recorrentes de ansiedade no trabalho e sintomas...</p>
-                  <button class="view-btn">Ver prontuário / Laudo</button>
-              </div>
+                    data-patient="João da Silva" 
+                    data-type="Sessão TCC / Primeira Consulta" 
+                    data-date="30/09/2026 às 14:00" 
+                    data-price="R$ 200,00" 
+                    data-img="https://via.placeholder.com/150" 
+                    data-history="Paciente relata episódios recorrentes de ansiedade no trabalho e sintomas de burnout. Histórico sem medicações prévias.">
+            <img src="https://via.placeholder.com/150" alt="Foto do Paciente" class="card-img">
+            <div class="card-info">
+                <h3>João da Silva</h3>
+                <span class="specialty">Sessão TCC / Primeira Consulta</span>
+                <p class="card-date">🗓 30/09/2026 - 14:00</p>
+                <p class="card-price">💰 R$ 200,00</p>
+                <p class="card-preview">Paciente relata episódios recorrentes de ansiedade no trabalho e sintomas...</p>
+                <button class="view-btn">Ver prontuário / Laudo</button>
+            </div>
             </article>
 
             <!-- Consulta 2 -->
             <article class="appointment-card" 
-                     data-patient="Maria Oliveira" 
-                     data-type="Avaliação Neuropsicológica" 
-                     data-date="02/10/2026 às 10:00" 
-                     data-price="R$ 300,00" 
-                     data-img="https://via.placeholder.com/150" 
-                     data-history="Sessão de aplicação de testes cognitivos para investigação de foco e memória. Encaminhada por neurologista.">
-              <img src="https://via.placeholder.com/150" alt="Foto da Paciente" class="card-img">
-              <div class="card-info">
-                  <h3>Maria Oliveira</h3>
-                  <span class="specialty">Avaliação Neuropsicológica</span>
-                  <p class="card-date">🗓 02/10/2026 - 10:00</p>
-                  <p class="card-price">💰 R$ 300,00</p>
-                  <p class="card-preview">Sessão de aplicação de testes cognitivos para investigação de foco e memória...</p>
-                  <button class="view-btn">Ver prontuário / Laudo</button>
-              </div>
+                    data-patient="Maria Oliveira" 
+                    data-type="Avaliação Neuropsicológica" 
+                    data-date="02/10/2026 às 10:00" 
+                    data-price="R$ 300,00" 
+                    data-img="https://via.placeholder.com/150" 
+                    data-history="Sessão de aplicação de testes cognitivos para investigação de foco e memória. Encaminhada por neurologista.">
+            <img src="https://via.placeholder.com/150" alt="Foto da Paciente" class="card-img">
+            <div class="card-info">
+                <h3>Maria Oliveira</h3>
+                <span class="specialty">Avaliação Neuropsicológica</span>
+                <p class="card-date">🗓 02/10/2026 - 10:00</p>
+                <p class="card-price">💰 R$ 300,00</p>
+                <p class="card-preview">Sessão de aplicação de testes cognitivos para investigação de foco e memória...</p>
+                <button class="view-btn">Ver prontuário / Laudo</button>
+            </div>
             </article>
         </div>
     </section>
@@ -126,7 +136,17 @@
         <h1>Meus Pacientes</h1>
         <p>Gestão e histórico de prontuários dos seus pacientes vinculados:</p>
 
-        <div class="cards-grid">
+        <!-- Barra de Filtros e Busca para Pacientes -->
+        <div class="filter-bar">
+            <input type="text" id="searchPacientes" class="filter-input" placeholder="Buscar por nome do paciente...">
+            <select id="filterPacientesType" class="filter-select">
+                <option value="">Todos os planos/status</option>
+                <option value="Individual">Individual</option>
+                <option value="Plano">Plano de Saúde</option>
+            </select>
+        </div>
+
+        <div class="cards-grid" id="pacientesGrid">
             <article class="doctor-card" 
                     data-name="João da Silva" 
                     data-profession="Última consulta: 15/09/2026" 

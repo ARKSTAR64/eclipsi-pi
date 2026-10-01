@@ -231,3 +231,57 @@ document.addEventListener('DOMContentLoaded', () => {
   if (closeDoctorModalBtn) {
     closeDoctorModalBtn.addEventListener('click', () => doctorModal.close());
   }
+
+// Lógica de Filtro e Busca para Agenda
+const searchAgenda = document.getElementById('searchAgenda');
+const filterAgendaType = document.getElementById('filterAgendaType');
+const appointmentCards = document.querySelectorAll('.appointment-card');
+
+function filterAgenda() {
+  const query = searchAgenda ? searchAgenda.value.toLowerCase().trim() : '';
+  const selectedType = filterAgendaType ? filterAgendaType.value.toLowerCase() : '';
+
+  appointmentCards.forEach(card => {
+    const patientName = (card.getAttribute('data-patient') || '').toLowerCase();
+    const type = (card.getAttribute('data-type') || '').toLowerCase();
+
+    const matchesSearch = patientName.includes(query);
+    const matchesFilter = selectedType === '' || type.includes(selectedType);
+
+    if (matchesSearch && matchesFilter) {
+      card.style.display = 'flex';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+}
+
+if (searchAgenda) searchAgenda.addEventListener('input', filterAgenda);
+if (filterAgendaType) filterAgendaType.addEventListener('change', filterAgenda);
+
+// Lógica de Filtro e Busca para Pacientes
+const searchPacientes = document.getElementById('searchPacientes');
+const filterPacientesType = document.getElementById('filterPacientesType');
+const patientCards = document.querySelectorAll('.doctor-card');
+
+function filterPacientes() {
+  const query = searchPacientes ? searchPacientes.value.toLowerCase().trim() : '';
+  const selectedType = filterPacientesType ? filterPacientesType.value.toLowerCase() : '';
+
+  patientCards.forEach(card => {
+    const patientName = (card.getAttribute('data-name') || '').toLowerCase();
+    const priceText = (card.getAttribute('data-price') || '').toLowerCase();
+
+    const matchesSearch = patientName.includes(query);
+    const matchesFilter = selectedType === '' || priceText.includes(selectedType);
+
+    if (matchesSearch && matchesFilter) {
+      card.style.display = 'flex';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+}
+
+if (searchPacientes) searchPacientes.addEventListener('input', filterPacientes);
+if (filterPacientesType) filterPacientesType.addEventListener('change', filterPacientes);

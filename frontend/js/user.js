@@ -258,6 +258,39 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+document.addEventListener('DOMContentLoaded', () => {
+  // Lógica das Sub-Abas do Perfil (Dados Pessoais vs Configurações)
+  const tabBtns = document.querySelectorAll('.profile-tabs-nav .tab-btn');
+  const tabContents = document.querySelectorAll('.profile-tab-content');
+
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetTab = btn.getAttribute('data-tab');
+
+      tabBtns.forEach(b => b.classList.remove('active'));
+      tabContents.forEach(c => c.classList.remove('active'));
+
+      btn.classList.add('active');
+      document.getElementById(targetTab).classList.add('active');
+    });
+  });
+
+  // Mantém a confirmação no envio dos formulários
+  const settingsForm = document.getElementById('settingsForm');
+  if (settingsForm) {
+    settingsForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      openConfirmModal(
+        'Salvar Configurações',
+        'Deseja realmente atualizar as configurações do seu perfil?',
+        'Salvar',
+        false,
+        () => alert('Configurações salvas com sucesso!')
+      );
+    });
+  }
+});
+
 // Manipulação dos Cards de Profissionais e Modal
 const doctorCards = document.querySelectorAll('.doctor-card');
 const doctorModal = document.getElementById('doctorModal');
@@ -490,3 +523,4 @@ if (ratingForm) {
     ratingModal.close();
   });
 }
+

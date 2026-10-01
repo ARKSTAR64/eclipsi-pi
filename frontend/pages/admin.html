@@ -215,35 +215,76 @@
 
     <!-- Aba 3: Perfil do Administrador -->
     <section id="perfil" class="page-content">
-      <h1>Perfil do Administrador</h1>
-      <p>Gerencie e altere as configurações da sua conta de Administrador:</p>
+      <div class="profile-header-container">
+        <h1>Perfil do Administrador</h1>
+        <button type="button" id="openSettingsBtn" class="settings-nav-btn">
+          <i class="fa-solid fa-gear"></i> Configurações
+        </button>
+      </div>
+      <p style="margin-top: 8px;">Gerencie suas informações pessoais administrativas:</p>
 
       <form id="adminProfileForm" class="settings-form">
         <div class="settings-group">
           <div class="profile-avatar-wrapper">
             <img src="https://via.placeholder.com/120" alt="Avatar Admin" class="profile-avatar-lg">
             <label class="avatar-upload-btn">
-              Alterar Foto <input type="file" hidden accept="image/*">
+              <i class="fa-solid fa-camera"></i> Alterar Foto <input type="file" hidden accept="image/*">
             </label>
           </div>
 
           <div class="form-group">
-            <label>Nome Completo</label>
+            <label for="adminName">Nome Completo</label>
             <input type="text" id="adminName" value="Administrador Principal" required>
           </div>
 
           <div class="form-group">
-            <label>E-mail Corporativo</label>
+            <label for="adminCargo">Cargo / Função</label>
+            <input type="text" id="adminCargo" value="Administrador do Sistema" readonly style="background-color: #f0f0f0; cursor: not-allowed;">
+          </div>
+
+          <button type="submit" class="save-settings-btn">Salvar Meu Perfil</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Nova Aba: Configurações do Próprio Administrador -->
+    <section id="configuracoes" class="page-content">
+      <div class="settings-header-container">
+        <button type="button" id="backToProfileBtn" class="btn-back">
+          <i class="fa-solid fa-arrow-left"></i> Voltar ao Perfil
+        </button>
+        <h1>Configurações da Conta</h1>
+      </div>
+
+      <form id="adminSettingsForm" class="settings-form">
+        <!-- Segurança e Acesso Próprio -->
+        <div class="settings-group">
+          <h3>Segurança e Credenciais de Acesso</h3>
+          <div class="form-group">
+            <label for="adminEmail">E-mail Corporativo</label>
             <input type="email" id="adminEmail" value="admin@saudemental.com" required>
           </div>
 
           <div class="form-group">
-            <label>Nova Senha</label>
+            <label for="adminPassword">Nova Senha</label>
             <input type="password" id="adminPassword" placeholder="Deixe em branco para manter a atual">
           </div>
-
-          <button type="submit" class="save-settings-btn">Salvar Alterações do Admin</button>
         </div>
+
+        <!-- Preferências Pessoais de Notificação -->
+        <div class="settings-group">
+          <h3>Notificações do Sistema</h3>
+          <div class="form-group-toggle" style="display: flex; justify-content: space-between; align-items: center;">
+            <label for="notifNewUser">Alertas de novos cadastros pendentes</label>
+            <input type="checkbox" id="notifNewUser" class="toggle-checkbox" checked>
+          </div>
+          <div class="form-group-toggle" style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+            <label for="notifReports">Receber relatórios semanais por e-mail</label>
+            <input type="checkbox" id="notifReports" class="toggle-checkbox" checked>
+          </div>
+        </div>
+
+        <button type="submit" class="save-settings-btn">Salvar Minhas Configurações</button>
       </form>
     </section>
 
