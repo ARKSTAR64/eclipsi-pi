@@ -50,6 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Carrega dados iniciais
   loadUsers();
   loadStats();
+  loadAdminProfile();
 
   // Formulário de Edição do Perfil de Usuário
   const editUserForm = document.getElementById('editUserForm');
@@ -112,6 +113,21 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+
+//Criando Função para colocar os valores do Admin da nova variável
+async function loadAdminProfile() {
+  try {
+    const res = await fetch('/api/admin/profile');
+    const data = await res.json();
+
+    if (data.success) {
+      document.getElementById('adminName').value = data.admin.nome || '';
+      document.getElementById('adminEmail').value = data.admin.email || '';
+    }
+  } catch (e) {
+    console.error('Erro ao carregar perfil do administrador:', e);
+  }
+}
 
 // Carrega os usuários na tabela
 async function loadUsers() {

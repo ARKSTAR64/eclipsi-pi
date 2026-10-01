@@ -213,12 +213,12 @@ def update_user_by_admin(user_id):
     try:
         cursor.execute("""
             UPDATE users 
-            SET nome = ?, email = ?, role = ?, telefone = ?, registro = ?
-            WHERE id = ?
+            SET nome = %s, email = %s, role = %s, telefone = %s, registro = %s
+            WHERE id = %s
         """, (nome, email, role, telefone, registro, user_id))
         conn.commit()
         return jsonify({"success": True, "message": "Usuário atualizado com sucesso!"}), 200
-    except sqlite3.IntegrityError:
+    except psycopg23.IntegrityError:
         return jsonify({"success": False, "message": "E-mail ou registro já cadastrado."}), 400
     except Exception as e:
         return jsonify({"success": False, "message": f"Erro interno: {str(e)}"}), 500
@@ -232,13 +232,19 @@ def delete_user_by_admin(user_id):
     conn = get_db()
     cursor = conn.cursor()
     try:
-        cursor.execute("DELETE FROM users WHERE id = ?", (user_id,))
+        cursor.execute("DELETE FROM users WHERE id = %s", (user_id,))
         conn.commit()
         return jsonify({"success": True, "message": "Usuário excluído com sucesso!"}), 200
     except Exception as e:
         return jsonify({"success": False, "message": f"Erro ao excluir: {str(e)}"}), 500
     finally:
         conn.close()
+
+@app.route("/api/admin/profile", methods=["GET"])
+def get_admin_profile():
+    """Pega as credenciais nome, email do perfil do Administrador."""
+    
+
 
 @app.route("/api/admin/profile", methods=["PUT"])
 def update_admin_profile():
@@ -258,13 +264,13 @@ def update_admin_profile():
     try:
         if senha:
             senha_hash = generate_password_hash(senha)
-            cursor.execute("UPDATE users SET nome = ?, email = ?, senha = ? WHERE id = ?", (nome, email, senha_hash, admin_id))
+            cursor.execute("UPDATE users SET nome = %s, email = %s, senha = %s WHERE id = %s", (nome, email, senha_hash, admin_id))
         else:
-            cursor.execute("UPDATE users SET nome = ?, email = ? WHERE id = ?", (nome, email, admin_id))
+            cursor.execute("UPDATE users SET nome = %s, email = %s WHERE id = %s", (nome, email, admin_id))
         
         conn.commit()
         return jsonify({"success": True, "message": "Perfil de administrador atualizado!"}), 200
-    except sqlite3.IntegrityError:
+    except psycopg23.IntegrityError:
         return jsonify({"success": False, "message": "E-mail já está em uso."}), 400
     except Exception as e:
         return jsonify({"success": False, "message": f"Erro interno: {str(e)}"}), 500

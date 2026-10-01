@@ -1,4 +1,5 @@
 import os
+import psycopg2
 import sys
 from werkzeug.security import generate_password_hash
 
@@ -22,22 +23,22 @@ cursor = conn.cursor()
 senha_hash = generate_password_hash(ADMIN_SENHA)
 
 # Verifica se já existe um utilizador com este e-mail
-cursor.execute("SELECT id FROM users WHERE email = ?", (ADMIN_EMAIL,))
+cursor.execute("SELECT id FROM users WHERE email = %s", (ADMIN_EMAIL,))
 user = cursor.fetchone()
 
 if user:
     # Atualiza a senha e o perfil (role) para garantir que está com hash e como admin
     cursor.execute("""
         UPDATE users 
-        SET senha = ?, role = 'admin', nome = ? 
-        WHERE email = ?
+        SET senha = %s, role = 'admin', nome = %s 
+        WHERE email = %s
     """, (senha_hash, ADMIN_NOME, ADMIN_EMAIL))
     print(f"✅ Administrador '{ADMIN_EMAIL}' ATUALIZADO com sucesso!")
 else:
     # Cria o utilizador admin do zero
     cursor.execute("""
         INSERT INTO users (nome, email, senha, role)
-        VALUES (?, ?, ?, 'admin')
+        VALUES (%s, %s, %s, 'admin')
     """, (ADMIN_NOME, ADMIN_EMAIL, senha_hash))
     print(f"✅ Administrador '{ADMIN_EMAIL}' CRIADO com sucesso!")
 
