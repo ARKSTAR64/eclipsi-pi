@@ -15,6 +15,8 @@ from database import init_db, get_db
 app = Flask(__name__, static_folder=FRONTEND_DIR, static_url_path="")
 
 init_db()
+from consultas import bp as consultas_bp, validar_cadastro
+     app.register_blueprint(consultas_bp)
 
 # ==========================================
 # ROTAS DE FRONTEND
@@ -91,7 +93,9 @@ def login():
 @app.route("/api/register/user", methods=["POST"])
 def register_user():
     data = request.get_json() or {}
-    
+    erro = validar_cadastro(data)
+    if erro:
+        return jsonify({"success": False, "message": erro}), 400
     nome = data.get("nome")
     email = data.get("email")
     idade = data.get("idade")
@@ -123,6 +127,9 @@ def register_user():
 @app.route("/api/register/doctor", methods=["POST"])
 def register_doctor():
     data = request.get_json() or {}
+    erro = validar_cadastro(data)
+    if erro:
+        return jsonify({"success": False, "message": erro}), 400
     
     nome = data.get("nome")
     email = data.get("email")

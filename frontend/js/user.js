@@ -163,7 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'Confirmar Alteração',
         false,
         () => {
-          alert('Configurações salvas com sucesso!');
+          dbSalvarConfig();
         }
       );
     });
@@ -251,7 +251,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'Confirmar',
         false,
         () => {
-            alert('Perfil atualizado com sucesso!');
+            dbSalvarPerfil();
         }
         );
     });
@@ -313,18 +313,6 @@ if (doctorModal) {
     if (!isInDialog) {
       doctorModal.close();
     }
-  });
-}
-
-if (scheduleBtn) {
-  scheduleBtn.addEventListener('click', () => {
-    // Salva as informações da consulta selecionada no localStorage
-    localStorage.setItem('selectedDoctorName', doctorModalName.textContent);
-    localStorage.setItem('selectedDoctorProfession', doctorModalProfession.textContent);
-    localStorage.setItem('selectedDoctorPrice', doctorModalPrice.textContent);
-
-    // Redireciona para a página de pagamento
-    window.location.href = 'pagamento.html';
   });
 }
 
@@ -481,12 +469,252 @@ if (ratingModal) {
     if (!isInDialog) ratingModal.close();
   });
 }
+// =====================================================================
+// INTEGRAÇÃO COM O BANCO (bloco novo, colar no FINAL do user.js)
+// =====================================================================
 
-if (ratingForm) {
-  ratingForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const ratingValue = ratingForm.querySelector('input[name="rating"]:checked')?.value;
-    alert(`Obrigado! Sua avaliação de ${ratingValue} estrelas foi registrada com sucesso.`);
-    ratingModal.close();
-  });
+const dbUser = JSON.parse(localStorage.getItem('user') || 'null');
+if (!dbUser || dbUser.role !== 'paciente') {
+    window.location.href = '/pages/login.html';
 }
+
+const dbPH = 'https://via.placeholder.com/150';
+const dbId = id => document.getElementById(id);
+
+const dbEsc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ 
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' 
+}[c]));
+
+const dbBrl = n => Number(n || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+const dbData = iso => new Date(iso).toLocaleString('pt-BR', { 
+    timeZone: 'America/Recife', 
+    dateStyle: 'short', 
+    timeStyle: 'short' 
+});
+
+async function dbApi(method, url, body) {
+    try {
+        const r = await fetch(url, { 
+            method, 
+            headers: { 'Content-Type': 'application/json' }, 
+            body: body ? JSON.stringify(body) : undefined 
+        });
+        return await r.json();
+    } catch (e) { 
+        return { success: false, message: 'Falha ao conectar ao servidor.' }; 
+    }
+}
+
+// ---------- HOME: consultas do paciente ----------
+let dbMedicos = {}, dbResumo = {};
+
+function dbCardConsulta(c) {
+    const feita = c.status === 'realizada';
+    return `
+    <article class="appointment-card ${feita ? 'completed' : 'upcoming'}" data-id="${c.id}"
+        data-doctor="${dbEsc(c.medico_nome)}" data-specialty="${dbEsc(c.especialidade || '')}"
+        data-date="${dbData(c.data_hora)}" data-price="${dbBrl(c.valor)}" data-img="${dbPH}"
+        data-feedback="${dbEsc(c.anotacoes || 'Sem anotações até o momento.')}">
+        
+        <img src="${dbPH}" alt="${dbEsc(c.medico_nome)}" class="card-img">
+        <div class="card-info">
+            <h3>${dbEsc(c.medico_nome)}</h3>
+            <span class="specialty">${dbEsc(c.especialidade || '')}</span>
+            <p class="card-date">🗓 ${dbData(c.data_hora)}</p>
+            <p class="card-price">💰 ${dbBrl(c.valor)}</p>
+            ${feita ? `<p class="card-preview">${dbEsc((c.anotacoes || 'Sem anotações.').slice(0, 80))}</p>` : '<span class="status-badge upcoming-badge">Agendada</span>'}
+            
+            <div class="card-actions">
+                <button class="view-btn">Ver detalhes</button>
+                ${feita && !c.avaliada ? `<button class="rate-btn" data-id="${c.id}" data-doctor-name="${dbEsc(c.medico_nome)}"><i class="fa-solid fa-star"></i> Avaliar</button>` : ''}
+                ${!feita ? `<button class="rate-btn" data-cancel="${c.id}">Cancelar</button>` : ''}
+            </div>
+        </div>
+    </article>`;
+}
+
+async function dbCarregarHome() {
+    const r = await dbApi('GET', `/api/consultas?paciente_id=${dbUser.id}`);
+    const lista = r.success ? r.consultas : [];
+    const grids = document.querySelectorAll('#home .cards-grid');
+    
+    grids[0].innerHTML = lista.filter(c => c.status === 'agendada').map(dbCardConsulta).join('') || '<p>Nenhuma consulta agendada.</p>';
+    grids[1].innerHTML = lista.filter(c => c.status === 'realizada').reverse().map(dbCardConsulta).join('') || '<p>Nenhuma consulta realizada ainda.</p>';
+}
+
+dbId('home').addEventListener('click', async e => {
+    const cancel = e.target.closest('[data-cancel]');
+    if (cancel) {
+        if (confirm('Deseja cancelar esta consulta?')) {
+            const r = await dbApi('PATCH', `/api/consultas/${cancel.dataset.cancel}`, { status: 'cancelada' });
+            if (!r.success) alert(r.message);
+            dbCarregarHome();
+        }
+        return;
+    }
+    
+    const rate = e.target.closest('.rate-btn');
+    if (rate) {
+        ratingModal.dataset.id = rate.dataset.id;
+        ratingDoctorName.textContent = `Profissional: ${rate.dataset.doctorName}`;
+        ratingForm.reset();
+        ratingModal.showModal();
+        return;
+    }
+    
+    const card = e.target.closest('.appointment-card');
+    if (!card) return;
+    
+    dbId('modalDoctor').textContent = card.dataset.doctor;
+    dbId('modalSpecialty').textContent = card.dataset.specialty;
+    dbId('modalDate').textContent = card.dataset.date;
+    dbId('modalPrice').textContent = card.dataset.price;
+    dbId('modalImg').src = card.dataset.img;
+    dbId('modalFeedback').textContent = card.dataset.feedback;
+    dbId('detailsModal').showModal();
+});
+
+ratingForm.addEventListener('submit', async e => {
+    e.preventDefault();
+    const nota = ratingForm.querySelector('input[name="rating"]:checked')?.value;
+    const r = await dbApi('POST', '/api/avaliacoes', {
+        consulta_id: ratingModal.dataset.id, 
+        nota, 
+        comentario: dbId('ratingComment').value 
+    });
+    
+    alert(r.message);
+    if (r.success) { 
+        ratingModal.close(); 
+        dbCarregarHome(); 
+        dbCarregarMedicos(); 
+    }
+});
+
+// ---------- BUSCAR CONSULTAS: médicos do banco ----------
+dbId('consultas').querySelector('p').insertAdjacentHTML('afterend', `
+    <input type="text" id="dbBuscaMedico" placeholder="Buscar por nome, registro ou descrição..." maxlength="100"
+        style="width:100%;max-width:360px;padding:10px 14px;border:1px solid #ddd;border-radius:20px;margin:8px 0 16px;">
+`);
+
+async function dbCarregarMedicos(q = '') {
+    const [r, rs] = await Promise.all([
+        dbApi('GET', `/api/doctors?q=${encodeURIComponent(q)}`), 
+        dbApi('GET', '/api/avaliacoes/resumo')
+    ]);
+    
+    dbResumo = rs.success ? rs.resumo : {};
+    const lista = r.success ? r.doctors : [];
+    dbMedicos = Object.fromEntries(lista.map(d => [d.id, d]));
+    
+    document.querySelector('#consultas .cards-grid').innerHTML = lista.map(d => {
+        const rt = dbResumo[d.id];
+        return `
+        <article class="doctor-card" data-id="${d.id}">
+            <img src="${dbPH}" alt="${dbEsc(d.nome)}" class="card-img">
+            <div class="card-info">
+                <h3>${dbEsc(d.nome)}</h3>
+                <span class="specialty">${dbEsc(d.especialidade || '')} (${dbEsc(d.registro || '')}${d.uf ? '/' + dbEsc(d.uf) : ''})</span>
+                <p class="card-rating">${rt ? `⭐ ${rt.media} (${rt.total} avaliações)` : 'Sem avaliações ainda'}</p>
+                <p class="card-price">💰 ${d.valor_hora != null ? dbBrl(d.valor_hora) + ' / hora' : 'Valor a combinar'}</p>
+                <p class="card-preview">${dbEsc((d.descricao || '').slice(0, 100))}</p>
+                <button class="view-doctor-btn">Ver perfil completo</button>
+            </div>
+        </article>`;
+    }).join('') || '<p>Nenhum profissional encontrado.</p>';
+}
+
+dbId('consultas').addEventListener('click', e => {
+    const card = e.target.closest('.doctor-card');
+    if (!card) return;
+    
+    const d = dbMedicos[card.dataset.id];
+    const rt = dbResumo[d.id];
+    
+    doctorModal.dataset.id = d.id;
+    doctorModalName.textContent = d.nome;
+    doctorModalProfession.textContent = `${d.especialidade || ''} (${d.registro || ''}${d.uf ? '/' + d.uf : ''})`;
+    doctorModalRating.textContent = rt ? `⭐ ${rt.media} (${rt.total} avaliações)` : 'Sem avaliações ainda';
+    doctorModalPrice.textContent = d.valor_hora != null ? dbBrl(d.valor_hora) : 'A combinar';
+    doctorModalBio.textContent = d.descricao || 'Sem apresentação.';
+    doctorModalImg.src = dbPH;
+    dbId('dbDataConsulta').value = '';
+    doctorModal.showModal();
+});
+
+scheduleBtn.insertAdjacentHTML('beforebegin', `
+    <label style="display:block;margin-top:12px">Data e hora:</label>
+    <input type="datetime-local" id="dbDataConsulta" style="width:100%;padding:10px;margin-bottom:8px;border:1px solid #ccc;border-radius:8px;">
+`);
+
+scheduleBtn.addEventListener('click', async () => {
+    if (!dbId('dbDataConsulta').value) return alert('Escolha a data e a hora da consulta.');
+    
+    const r = await dbApi('POST', '/api/consultas', {
+        paciente_id: dbUser.id, 
+        medico_id: doctorModal.dataset.id,
+        data_hora: new Date(dbId('dbDataConsulta').value).toISOString() 
+    });
+    
+    alert(r.message);
+    
+    if (r.success) { 
+        doctorModal.close(); 
+        await dbCarregarHome(); 
+        dbId('home').classList.add('active'); 
+        document.querySelector('.nav-item[data-target="home"]').click(); 
+    }
+});
+
+let dbTimer;
+function dbBuscar(v) {
+    clearTimeout(dbTimer);
+    dbTimer = setTimeout(() => {
+        document.querySelector('.nav-item[data-target="consultas"]').click();
+        dbId('dbBuscaMedico').value = v;
+        dbCarregarMedicos(v.trim());
+    }, 250);
+}
+
+dbId('dbBuscaMedico').addEventListener('input', e => dbBuscar(e.target.value));
+document.querySelector('.search-input')?.addEventListener('input', e => dbBuscar(e.target.value));
+
+// ---------- PERFIL ----------
+async function dbCarregarPerfil() {
+    const r = await dbApi('GET', `/api/profile/${dbUser.id}`);
+    if (!r.success) return;
+    
+    const p = r.profile;
+    dbId('profileName').value = p.nome || '';
+    if (p.genero && [...dbId('profileGender').options].some(o => o.value === p.genero)) {
+        dbId('profileGender').value = p.genero;
+    }
+    dbId('profileBio').value = p.descricao || '';
+    dbId('userEmail').value = p.email || '';
+    dbId('userPhone').value = p.telefone || '';
+}
+
+async function dbSalvar(campos, msg) {
+    const r = await dbApi('PUT', `/api/profile/${dbUser.id}`, campos);
+    alert(r.success ? msg : r.message);
+}
+
+function dbSalvarPerfil() {
+    dbSalvar({ 
+        nome: dbId('profileName').value, 
+        genero: dbId('profileGender').value, 
+        descricao: dbId('profileBio').value 
+    }, 'Perfil atualizado com sucesso!');
+}
+
+function dbSalvarConfig() {
+    dbSalvar({ 
+        email: dbId('userEmail').value, 
+        telefone: dbId('userPhone').value 
+    }, 'Configurações salvas com sucesso!');
+}
+
+// Inicialização
+dbCarregarHome(); 
+dbCarregarMedicos(); 
+dbCarregarPerfil();

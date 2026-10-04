@@ -122,6 +122,22 @@
             </div>
         </div>
     </section>
+<dialog id="detailsModal" class="modal">
+  <div class="modal-content">
+    <button class="modal-close" id="closeModalBtn">&times;</button>
+    <div class="modal-header">
+      <img id="modalImg" src="" alt="" class="modal-img">
+      <div><h2 id="modalDoctor"></h2><p id="modalSpecialty" class="specialty"></p></div>
+    </div>
+    <div class="modal-body">
+      <p><strong>Data:</strong> <span id="modalDate"></span></p>
+      <p><strong>Valor:</strong> <span id="modalPrice"></span></p>
+      <hr>
+      <h4>Anotações do profissional:</h4>
+      <p id="modalFeedback" class="feedback-text"></p>
+    </div>
+  </div>
+</dialog>
 
     <!-- Modal de Avaliação do Médico -->
     <dialog id="ratingModal" class="modal">
@@ -395,7 +411,6 @@
         </button>
     </footer>
 
-  <script src="/js/user.js"></script>
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
