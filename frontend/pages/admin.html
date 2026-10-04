@@ -120,7 +120,7 @@
     </div>
 
     <div class="header-right">
-      <input type="text" class="search-input" placeholder="Buscar usuários...">
+      <input type="text" class="search-input" id="headerSearch" placeholder="Buscar usuários..." maxlength="100">
       <img src="https://via.placeholder.com/40" alt="Foto Admin" class="profile-img">
     </div>
   </header>
@@ -147,7 +147,9 @@
     <!-- Aba 1: Lista de Usuários -->
     <section id="usuarios" class="page-content active">
       <h1>Gerenciamento de Usuários</h1>
-      <p>Visualize e gerencie as contas cadastas na plataforma:</p>
+      <p>Visualize e gerencie as contas cadastradass na plataforma:</p>
+      <input type="text" id="userSearch" placeholder="Buscar por nome ou e-mail..." maxlength="100"
+             style="width:100%;max-width:360px;padding:10px 14px;border:1px solid #ddd;border-radius:20px;margin-top:8px;">
       <div class="table-container">
         <table class="admin-table">
           <thead>
@@ -175,15 +177,15 @@
         <h3 class="earnings-title"><i class="fa-solid fa-sack-dollar"></i> Arrecadação Financeira</h3>
         <div class="earnings-grid">
           <div class="earnings-card">
-            <span class="earnings-label">Arrecadado neste Mês</span>
-            <span class="earnings-value">R$ 38.500,00</span>
-            <small class="earnings-subtext"><i class="fa-solid fa-arrow-up"></i> +8.5% que o mês anterior</small>
-          </div>
-          <div class="earnings-card highlight">
-            <span class="earnings-label">Arrecadado no Ano (2026)</span>
-            <span class="earnings-value">R$ 412.000,00</span>
-            <small class="earnings-subtext">Taxa da plataforma e repasses</small>
-          </div>
+          <span class="earnings-label">Arrecadado neste Mês</span>
+          <span class="earnings-value" id="receitaMes">R$ 0,00</span>
+          <small class="earnings-subtext" id="receitaVariacao">Sem dados do mês anterior</small>
+        </div>
+        <div class="earnings-card highlight">
+          <span class="earnings-label" id="receitaAnoLabel">Arrecadado no Ano</span>
+          <span class="earnings-value" id="receitaAno">R$ 0,00</span>
+          <small class="earnings-subtext" id="receitaAnoSub">Taxa da plataforma: a definir</small>
+        </div>
         </div>
       </div>
 
@@ -276,8 +278,8 @@
         <div class="form-group">
           <label>Tipo de Conta</label>
           <select class="settings-select" id="editUserRole">
-            <option value="Paciente">Paciente</option>
-            <option value="Médico">Médico / Profissional</option>
+           <option value="paciente">Paciente</option>
+           <option value="medico">Médico / Profissional</option>
           </select>
         </div>
 

@@ -52,6 +52,11 @@ document.addEventListener('DOMContentLoaded', () => {
   loadStats();
   loadAdminProfile();
 
+  document.getElementById('headerSearch')
+      const campoBusca = document.getElementById('userSearch') || document.getElementById('headerSearch');
+  if (campoBusca) {
+    campoBusca.addEventListener('input', e => loadUsers(e.target.value.trim()));
+  }
   // Formulário de Edição do Perfil de Usuário
   const editUserForm = document.getElementById('editUserForm');
   if (editUserForm) {
@@ -117,7 +122,8 @@ document.addEventListener('DOMContentLoaded', () => {
 //Criando Função para colocar os valores do Admin da nova variável
 async function loadAdminProfile() {
   try {
-    const res = await fetch('/api/admin/profile');
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const res = await fetch(`/api/admin/profile?id=${user.id}`);
     const data = await res.json();
 
     if (data.success) {
@@ -174,7 +180,18 @@ async function loadStats() {
       const doctorTotal = document.getElementById('totalMedicos');
       if (doctorTotal) doctorTotal.textContent = stats.total_medicos;
 
-      const specGrid = document.getElementById('specialtiesGrid');
+            const r = stats.receita || {};
+      const brl = n => Number(n || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+      document.getElementById('receitaMes').textContent = brl(r.mes_atual);
+      document.getElementById('receitaAno').textContent = brl(r.ano);
+      document.getElementById('receitaAnoLabel').textContent = `Arrecadado no Ano (${r.ano_ref})`;
+      document.getElementById('receitaAnoSub').textContent =
+        `Taxa da plataforma: ${brl(r.taxa_ano)} · Repasses: ${brl(r.repasse_ano)}`;
+      document.getElementById('receitaVariacao').textContent = 
+      r.variacao_pct == null ? 'Sem dados do mês anterior'
+        : `${r.variacao_pct >= 0 ? '+' : ''}${r.variacao_pct}% que o mês anterior`;
+      
+        const specGrid = document.getElementById('specialtiesGrid');
       if (specGrid) {
         specGrid.innerHTML = '';
         const totalMedicos = stats.total_medicos || 1;
