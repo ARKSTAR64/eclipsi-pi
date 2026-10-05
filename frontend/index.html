@@ -3,23 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#6c5ce7">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <title>Register Page</title>
-
-    <!-- Configurações PWA -->
-    <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#000000">
+    <title>EcliPsi</title>
 
     <link rel="stylesheet" href="/css/style.css">
     <script src="/js/script.js" defer></script>
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#6c5ce7">
+  <link rel="icon" href="/icons/icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <script src="/js/pwa.js" defer></script>
 </head>
 <body>
     
     <main class="container">
         <div class="logo-tittle">
-            <img src="./src/images/tela-protoripo.png" alt="Tela de prototipação" class="logo">
+            <img src="/images/logo-ruim.png" alt="Tela de prototipação" class="logo">
             <h2 class="title">Cadastro</h2>
         </div>
 
@@ -29,15 +29,5 @@
             <p class="register-p">Ja fez um cadastro? <a href="/pages/login.html" class="register-link">Clique aqui!</a></p>
         </div>
     </main>
-
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js').catch((error) => {
-                    console.error('Erro ao registrar o Service Worker:', error);
-                });
-            });
-        }
-    </script>
 </body>
 </html>
