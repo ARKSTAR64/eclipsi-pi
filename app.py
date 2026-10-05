@@ -16,7 +16,7 @@ app = Flask(__name__, static_folder=FRONTEND_DIR, static_url_path="")
 
 init_db()
 from consultas import bp as consultas_bp, validar_cadastro
-     app.register_blueprint(consultas_bp)
+app.register_blueprint(consultas_bp)
 
 # ==========================================
 # ROTAS DE FRONTEND

@@ -367,7 +367,7 @@ function renderOfflineAppointments() {
     `;
 
     if (cardsGrid) {
-      homeSection.insertBefore(panel, cardsGrid);
+      cardsGrid.parentNode.insertBefore(panel, cardsGrid);
     } else {
       homeSection.appendChild(panel);
     }
