@@ -73,9 +73,7 @@ frontend/  index.html, offline.html, manifest.json, sw.js, css/, js/, pages/, ic
 * João Vitor Lima B. G. de Melo - [GitHub](https://github.com/JoaoVitorMeloDev)
 * Valentina Matias de Oliveira dos Santos - [GitHub]()
 
-* Academic Advisor / Professor: Prof. Filipe Carvalho
-* Academic Advisor / Professor: Prof. Sonia Gomes
-* Tech English Course Professor: Prof. Leonardo Trevas 
+* Academic Advisor / Professor: Prof. Ícaro Santos Ferreira
 
 
 
