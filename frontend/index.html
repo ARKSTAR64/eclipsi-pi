@@ -6,15 +6,23 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <title>EcliPsi</title>
+        <!-- Configurações PWA -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#000000">
 
     <link rel="stylesheet" href="/css/style.css">
     <script src="/js/script.js" defer></script>
-  <link rel="manifest" href="/manifest.json">
-  <meta name="theme-color" content="#6c5ce7">
-  <link rel="icon" href="/icons/icon-192.png" type="image/png">
-  <link rel="apple-touch-icon" href="/icons/icon-192.png">
-  <script src="/js/pwa.js" defer></script>
+
 </head>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js').catch((error) => {
+        console.error('Erro ao registrar o Service Worker:', error);
+      });
+    });
+  }
+</script>
 <body>
     
     <main class="container">
