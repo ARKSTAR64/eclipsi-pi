@@ -26,6 +26,4 @@ backend/   database.py, consultas.py, .env.example
 database/  schema.sql
 frontend/  index.html, offline.html, manifest.json, sw.js, css/, js/, pages/, icons/, images/
 ```
-
-## Próximos passos
-Autenticação real (JWT/sessão) nas rotas, gravar pagamentos na tabela `pagamentos`, chat, quiz, perfil e busca de psicólogos.
+.env fica na raiz 
