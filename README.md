@@ -1,6 +1,6 @@
 # EcliPsi
 
-> Agendamento de consultas entre pacientes e profissionais (paciente, médico/psicólogo). Focado numa navegação simples e acessível.
+> Appointment scheduling between patients and professionals (patient, doctor/psychologist). Focused on simple and accessible navigation.
 
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE) 
 
