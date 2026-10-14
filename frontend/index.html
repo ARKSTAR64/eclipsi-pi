@@ -10,8 +10,8 @@
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#000000">
 
-    <link rel="stylesheet" href="/frontend/css/style.css">
-    <script src="/js/script.js" defer></script>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/auth/script.js" defer></script>
 
 </head>
 <script>
@@ -24,18 +24,21 @@
   }
 </script>
 <body>
-    
-    <main class="container">
-        <div class="logo-tittle">
-            <img src="/images/logo-ruim.png" alt="Tela de prototipação" class="logo">
-            <h2 class="title">Cadastro</h2>
-        </div>
-
-        <div class="register-option">
-            <button class="option-register" onclick="makeLogin()">Fazer login</button>
-            <button class="option-register" onclick="makeRegister()">Fazer um cadastro</button>
-            <p class="register-p">Ja fez um cadastro? <a href="/pages/login.html" class="register-link">Clique aqui!</a></p>
-        </div>
-    </main>
+  <!-- Fundo superior (cor clara) -->
+  <div class="background-top"></div>
+  <!-- Fundo inferior com a curva (cor escura) -->
+  <div class="background-bottom"></div>
+  
+  <main class="container">
+      <div class="logo-tittle">
+          <img src="/images/logo.png" alt="Tela de prototipação" class="logo">
+          <h2 class="title">Cadastro</h2>
+      </div>
+      <div class="register-option">
+          <button class="option-register" onclick="makeLogin()">Fazer login</button>
+          <button class="option-register" onclick="makeRegister()">Fazer um cadastro</button>
+          <p class="register-p">Ja fez um cadastro? <a href="/pages/login.html" class="register-link">Clique aqui!</a></p>
+      </div>
+  </main>
 </body>
 </html>

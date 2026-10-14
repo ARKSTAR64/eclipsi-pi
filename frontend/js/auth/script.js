@@ -1,17 +1,17 @@
 function makeLogin() {
-    window.location.href = "/pages/login.html";
+    window.location.href = "/pages/auth/login.html";
 }
 
 function makeRegister() {
-    window.location.href = "/pages/cadastro.html";
+    window.location.href = "/pages/auth/cadastro.html";
 }
 
 function medChange() {
-    window.location.href = "/pages/cadastro-medico.html";
+    window.location.href = "/pages/auth/cadastro-medico.html";
 }
 
 function pacChange() {
-    window.location.href = "/pages/cadastro-user.html";
+    window.location.href = "/pages/auth/cadastro-user.html";
 }
 
 function goBack() {

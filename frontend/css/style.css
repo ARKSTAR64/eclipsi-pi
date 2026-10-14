@@ -3,17 +3,48 @@
     box-sizing: border-box;
 }
 
-body{
+body {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 100vh;
-    padding: 0;
-    background-color: #1d0027;
+    min-height: 100vh;
+    padding: 20px 0;
+    background-color: #322c8e;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Bloco da cor de fundo inferior (azul/roxo escuro) */
+.background-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50%; /* Ocupa os 70% de baixo da tela */
+    background-color: #ffeec2; /* Cor escura do fundo */
+    z-index: 1; /* Fica abaixo do conteúdo, mas acima do fundo base */
+}
+
+
+/* Bloco da cor de fundo inferior (azul/roxo escuro) */
+.background-bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 70%; /* Ocupa os 70% de baixo da tela */
+    background-color: #322c8e; /* Cor escura do fundo */
+    
+    /* Cria a curva redonda no topo da div */
+    border-top-left-radius: 50% 20%;
+    border-top-right-radius: 50% 20%;
+    
+    z-index: 1; /* Fica abaixo do conteúdo, mas acima do fundo base */
 }
 
 .container {
+    position: relative;
+    z-index: 2;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -33,6 +64,8 @@ body{
 }
 
 .logo {
+    width: 100%;
+    max-width: 300px;
     border-radius: 50%;
 }
 
